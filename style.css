@@ -30,7 +30,7 @@ body {
     overflow: hidden;
 }
 
-/* 1. คุมกล่องมือถือหลัก (แก้เรื่อง footer ลอย) */
+/* 1. คุมกล่องมือถือหลัก */
 .phone-container { 
     background: linear-gradient(180deg, var(--midnight-bg) 0%, #ff4888 100%);
     width: 100%; 
@@ -40,9 +40,6 @@ body {
     height: 100vh;
     height: 100dvh; 
     
-    /* 🌟 เอา max-height: 850px; ออก หรือครอบด้วย Media Query */
-    /* เพื่อไม่ให้กล่องหดสั้นจนฟุตเตอร์ลอยค้างบนหน้าจอมือถือยาวๆ ครับ */
-    
     border-radius: 24px; 
     overflow: hidden; 
     display: flex; 
@@ -51,24 +48,29 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-/* ปรับปรุงเฉพาะหน้าจอมือถือจริง เพื่อให้ขอบโค้งมนและการยืดตัวแสดงผลได้เต็มจอ */
+/* ปรับปรุงเฉพาะหน้าจอมือถือจริง */
 @media (max-width: 480px) {
     .phone-container {
-        border-radius: 0; /* บนมือถือจริงให้เต็มจอเนียนๆ ไปเลยครับ */
+        border-radius: 0; 
     }
 }
 
-/* Base Screen Template */
+/* Base Screen Template - 🌟 ปรับปรุงการจัดวางบาลานซ์ให้ไม่กองด้านบน */
 .screen { 
     display: none; 
-    padding: 40px 30px; 
+    padding: 70px 24px calc(100px + env(safe-area-inset-bottom)) 24px; 
     flex-direction: column; 
-    justify-content: center; 
+    justify-content: flex-start; 
     align-items: center; 
     height: 100%; 
+    width: 100%;
     text-align: center; 
     opacity: 0;
     transition: opacity 0.3s ease;
+    box-sizing: border-box;
+    
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch; 
 }
 
 .screen.active { 
@@ -77,36 +79,36 @@ body {
 }
 
 /* =========================================================================
-   2. หน้าคั่นคำถาม (INTERMISSION SCREEN) - แก้ไขจัดระเบียบปุ่มและสมดุลรูปภาพ
+   2. หน้าคั่นคำถาม (INTERMISSION SCREEN) - ดึงลงมาอยู่ตรงกลางด้วยวิธีสปริง
    ========================================================================= */
-
-/* ปรับเฉพาะหน้าคั่นให้กระจายไอเทม ดันปุ่มลงด้านล่างสุดของจอสมาร์ทโฟน */
 #intermission-screen {
-    justify-content: space-between; 
-    padding: 60px 25px 60px 25px; 
+    justify-content: flex-start; 
+    padding: 70px 24px calc(100px + env(safe-area-inset-bottom)) 24px; 
 }
 
-/* กล่องคุมเนื้อหาครึ่งบนให้ล็อกอยู่กึ่งกลาง ไม่โย้เย้ */
+/* กล่องคุมเนื้อหาครึ่งบน - 🌟 ใช้สปริงบนล่างเพื่อให้คอนเทนต์อยู่กึ่งกลางสวยๆ ไม่กองด้านบน */
 .intermission-content-box {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    flex-grow: 1;
     width: 100%;
+    margin-top: auto;    /* 🌟 สปริงดันด้านบน */
+    margin-bottom: auto; /* 🌟 สปริงดันด้านล่าง */
 }
 
-/* จัดรูปหน้าคั่นให้อยู่ตรงกลางเป๊ะ ไม่โดนตัวหนังสือเบียด */
+/* จัดรูปหน้าคั่นให้อยู่ตรงกลางเป๊ะ */
 .intro-scene-image {
     display: block;
-    width: 220px;         /* ปรับขนาดให้สมดุลพอดีกับสัดส่วนตัวหนังสือ */
+    width: 220px;         
     height: auto;         
     object-fit: contain;
-    margin: 0 auto 60px auto; 
+    margin: 0 auto 30px auto; 
     animation: float 3s ease-in-out infinite; 
+    flex-shrink: 0;
 }
 
-/* ปรับกล่องข้อความพิมพ์วิ่งให้อยู่กึ่งกลางจออย่างมั่นคง */
+/* ปรับกล่องข้อความพิมพ์วิ่ง */
 .intermission-title {
     font-size: 20px;
     font-weight: 400;
@@ -116,23 +118,32 @@ body {
     min-height: 120px; 
     margin: 0 auto;
     text-align: center;
-    display: block;      /* เปลี่ยนจาก flex เป็น block เพื่อแก้การเบียดซ้าย */
-    position: relative;  /* รองรับคำสั่งลอยตัวของเส้นกะพริบ */
+    display: block;      
+    position: relative;  
 }
 
-/* เส้นกะพริบพิมพ์ดีดแบบลอยตัว (Absolute) ไม่กินพื้นที่ ไม่ดันตัวอักษรเอียง */
-
-
-/* ดึงปุ่มในหน้าคั่นคำถามให้ตรึงอยู่ตำแหน่งล่างอย่างสวยงาม */
+/* ปุ่มในหน้าคั่นคำถาม */
 #next-to-quiz-btn {
-    margin-top: auto; 
+    margin-top: auto;   /* 🌟 ปักหมุดให้อยู่โซนด้านล่างแบบรักษาระยะห่าง */
     margin-bottom: 10px;
     width: 85%;
+    flex-shrink: 0; 
 }
 
 /* =========================================================================
    3. หน้าแรก (START SCREEN) & หน้าควิซ (QUIZ SCREEN)
    ========================================================================= */
+/* 🌟 เพิ่มระบบสปริงให้หน้าแรกเวลามีคอนเทนต์สั้นๆ จะได้อยู่กึ่งกลางสายตาพอดี */
+#start-screen .bakery-window,
+#start-screen .image {
+    margin-top: auto; 
+}
+
+#start-screen .btn {
+    margin-top: auto;
+    margin-bottom: 10px;
+}
+
 .bakery-window {
     font-size: 70px;
     margin-bottom: 20px;
@@ -168,53 +179,57 @@ body {
     font-weight: 800;
     line-height: 1.6;
     color: var(--wine-red);
-    margin-bottom: 60px;
-    height: 80px;
+    margin-top: auto;    /* 🌟 ดึงชื่อคำถามลงมาให้อยู่บาลานซ์กึ่งกลาง */
+    margin-bottom: 30px; 
+    min-height: 80px;
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
 }
 
 .options-grid {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: auto; /* 🌟 ทำงานร่วมกับด้านบนเพื่อล็อกกริดให้อยู่ตรงกลางแอปพอดี */
 }
 
-/* การ์ดช้อยส์คำตอบสไตล์ Glassmorphism ชมพูอ่อนจางๆ เบลอละมุน */
+/* การ์ดช้อยส์คำตอบสไตล์ Glassmorphism */
 .option-btn {
-    background: rgba(233, 90, 120, 0.08); /* ใช้สีชมพู S&P (--sp-pink) แบบโปร่งแสงจางๆ 8% */
-    border: 1px solid rgba(233, 90, 120, 0.15); /* ขอบเส้นสีชมพูบางเบา */
-    color: #333333;                             /* สีตัวอักษรคำตอบเข้มพอดีให้จัดเจน */
+    background: rgba(233, 90, 120, 0.08); 
+    border: 1px solid rgba(233, 90, 120, 0.15); 
+    color: #333333;                             
     padding: 16px 20px;
     width: 100%;
-    border-radius: 16px;                        /* ความโค้งมนสไตล์โมเดิร์น */
+    border-radius: 16px;                        
     margin-bottom: 12px;
     font-size: 15px;
     font-weight: 500;
     cursor: pointer;
     text-align: center;
+    position: relative;
+    flex-shrink: 0;
     
-    /* หัวใจหลักของเอฟเฟกต์กระจกฝ้า (Glassmorphism) */
     -webkit-backdrop-filter: blur(8px);
     backdrop-filter: blur(8px);
     
-    /* เพิ่ม Shadow จางๆ ให้ปุ่มดูลอยมีมิติเหนือกราวด์ */
     box-shadow: 0 4px 12px rgba(233, 90, 120, 0.04);
     transition: background 0.3s ease, border-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
 }
 
-/* เอฟเฟกต์ตอนโฮเวอร์ (Hover) หรือใช้นิ้วแตะเลือกช้อยส์ */
 .option-btn:hover {
-    background: rgba(233, 90, 120, 0.18);      /* เพิ่มความเข้มชมพูขึ้นมาตอนโฟกัส */
-    border-color: var(--sp-pink);               /* เส้นขอบสว่างคมชัดสีชมพู */
-    color: var(--sp-pink);                      /* เปลี่ยนฟอนต์คำตอบเป็นสีชมพูเฉดแบรนด์ */
-    transform: translateY(-2px);                 /* ลอยเด้งขึ้นมาเล็กน้อยเพิ่มความสนุก */
-    box-shadow: 0 6px 15px rgba(233, 90, 120, 0.15); /* รังสีออร่าสีชมพูฟุ้งๆ รอบปุ่ม */
+    background: rgba(233, 90, 120, 0.18);      
+    border-color: var(--sp-pink);               
+    color: var(--sp-pink);                      
+    transform: translateY(-2px);                 
+    box-shadow: 0 6px 15px rgba(233, 90, 120, 0.15); 
 }
 
 /* Progress Bar ด้านบน */
 .progress-container {
     position: absolute;
-    top: 25px; /* 🌟 ปรับเพิ่มจากเดิม (เช่น ถ้าเดิมเป็น 0 หรือ 10px) ให้ขยับต่ำลงมาหลบส่วนหัวของ iPhone */
+    top: 25px; 
     left: 0;
     width: 100%;
     height: 6px;
@@ -229,11 +244,11 @@ body {
     box-shadow: 0 0 10px var(--sp-pink);
 }
 
-/* ตกแต่งรูปกล่องให้เปลี่ยนเมาส์เป็นรูปมือ ชวนให้กด */
 .clickable-box {
     cursor: pointer;
     user-select: none;
     -webkit-user-select: none;
+    margin-top: auto; /* 🌟 ปรับแต่งกล่องหน้าแกะของขวัญให้อยู่กลางจอ */
 }
 
 /* หลอดพลัง Progress บังคับการแกะกล่องเค้ก */
@@ -250,9 +265,9 @@ body {
 .tap-progress-fill {
     height: 100%;
     width: 0%;
-    background: var(--sp-pink); /* วิ่งเป็นสีชมพูหวานๆ */
+    background: var(--sp-pink); 
     box-shadow: 0 0 8px var(--sp-pink);
-    transition: width 0.1s ease-out; /* ปรับให้ขยับตามนิ้วกดไวขึ้น */
+    transition: width 0.1s ease-out; 
 }
 
 /* ข้อความคำแนะนำการจิ้มกล่อง */
@@ -263,7 +278,6 @@ body {
     opacity: 0.9;
 }
 
-/* แอนิเมชันตอนโดนนิ้วกดรัวๆ สั่งให้กล่องเค้กสั่นดุ๊กดิ๊กสมจริง */
 .shake-animation {
     animation: boxShake 0.15s linear infinite;
 }
@@ -291,6 +305,7 @@ body {
     width: 100%;
     display: flex;
     justify-content: center;
+    margin-top: auto; /* 🌟 ปรับสมดุลหน้าตั๋วผลลัพธ์ให้อยู่เซ็นเตอร์พอดี */
 }
 
 .ticket-card {
@@ -343,9 +358,12 @@ body {
     cursor: pointer; 
     width: 85%; 
     margin-top: 15px; 
+    margin-bottom: 10px; /* 🌟 ปรับแก้ให้รองรับระบบสปริง */
     text-decoration: none;
     display: inline-block;
     box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    position: relative;
+    flex-shrink: 0;
 }
 
 .btn:hover { 
@@ -380,7 +398,7 @@ body {
     box-shadow: 0 0 25px rgba(233, 0, 82, 0.4);
 }
 
-/* ปรับฟุตเตอร์ให้อยู่กับร่องกับรอย ไม่ลอยสวนขึ้นมา */
+/* ฟุตเตอร์ */
 footer {
     text-align: center;
     padding: 12px 14px;
@@ -399,11 +417,10 @@ footer {
     z-index: 99;
     border-top: 1px solid rgba(255, 255, 255, 0.1); 
     
-    /* 🌟 ปรับเซฟโซนของ iOS ด้านล่างสุด เพื่อดันเนื้อหาขึ้นมาหลบแถบคาดขาวของ iPhone */
     padding-bottom: calc(15px + env(safe-area-inset-bottom)); 
     box-sizing: border-box;
+    pointer-events: none; 
 }
-
 
 /* =========================================================================
    5. ANIMATIONS
