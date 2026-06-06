@@ -404,7 +404,7 @@ footer {
     padding: 12px 14px;
     background: rgba(255, 0, 0, 0.1);
     -webkit-backdrop-filter: blur(15px);
-    backdrop-filter: blur(15px);
+    backdrop-filter: blur(10px);
     color: var(--sp-pink);              
     font-family: "Quicksand", sans-serif;
     font-size: 12px;
