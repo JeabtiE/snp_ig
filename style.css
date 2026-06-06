@@ -27,31 +27,23 @@ body {
     align-items: center; 
     min-height: 100vh; 
     color: var(--text-color); 
+    overflow: hidden;
 }
 
-footer {
-    text-align: center;
-    padding: 12px;
-    background: rgba(255, 255, 255, 0.2);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    color: var(--sp-pink); 
-    font-family: "Quicksand", sans-serif;
-    font-size: 12px;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-}
-
-/* กล่องครอบตัวเกม ออกแบบสัดส่วนให้เหมือนแอปมือถือ */
-.quiz-container { 
-    background: #fffbf7; 
+/* 1. คุมกล่องมือถือหลัก (แก้เรื่อง footer ลอย) */
+.phone-container { 
+    background: linear-gradient(180deg, var(--midnight-bg) 0%, #ff4888 100%);
     width: 100%; 
-    max-width: 450px; 
-    height: 100vh; 
-    max-height: 850px; 
-    border-radius: 20px; 
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
+    max-width: 420px; 
+    
+    /* ใช้ความสูงยืดหยุ่นตามหน้าจอ iPhone จริง */
+    height: 100vh;
+    height: 100dvh; 
+    
+    /* 🌟 เอา max-height: 850px; ออก หรือครอบด้วย Media Query */
+    /* เพื่อไม่ให้กล่องหดสั้นจนฟุตเตอร์ลอยค้างบนหน้าจอมือถือยาวๆ ครับ */
+    
+    border-radius: 24px; 
     overflow: hidden; 
     display: flex; 
     flex-direction: column; 
@@ -59,7 +51,14 @@ footer {
     border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-/* หน้าจอต่างๆ จะซ่อนไว้ก่อน และแสดงเฉพาะคลาสที่มี .active */
+/* ปรับปรุงเฉพาะหน้าจอมือถือจริง เพื่อให้ขอบโค้งมนและการยืดตัวแสดงผลได้เต็มจอ */
+@media (max-width: 480px) {
+    .phone-container {
+        border-radius: 0; /* บนมือถือจริงให้เต็มจอเนียนๆ ไปเลยครับ */
+    }
+}
+
+/* Base Screen Template */
 .screen { 
     display: none; 
     padding: 40px 30px; 
@@ -180,28 +179,45 @@ footer {
     width: 100%;
 }
 
-.option-btn { 
-    background: var(--light-gray); 
-    border: 2px solid var(--border-gray); 
-    padding: 15px; 
-    width: 100%; 
-    border-radius: 15px; 
-    margin-bottom: 12px; 
-    font-size: 16px; 
-    cursor: pointer; 
-    text-align: left; 
-    transition: all 0.2s; 
+/* การ์ดช้อยส์คำตอบสไตล์ Glassmorphism ชมพูอ่อนจางๆ เบลอละมุน */
+.option-btn {
+    background: rgba(233, 90, 120, 0.08); /* ใช้สีชมพู S&P (--sp-pink) แบบโปร่งแสงจางๆ 8% */
+    border: 1px solid rgba(233, 90, 120, 0.15); /* ขอบเส้นสีชมพูบางเบา */
+    color: #333333;                             /* สีตัวอักษรคำตอบเข้มพอดีให้จัดเจน */
+    padding: 16px 20px;
+    width: 100%;
+    border-radius: 16px;                        /* ความโค้งมนสไตล์โมเดิร์น */
+    margin-bottom: 12px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+    
+    /* หัวใจหลักของเอฟเฟกต์กระจกฝ้า (Glassmorphism) */
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    
+    /* เพิ่ม Shadow จางๆ ให้ปุ่มดูลอยมีมิติเหนือกราวด์ */
+    box-shadow: 0 4px 12px rgba(233, 90, 120, 0.04);
+    transition: background 0.3s ease, border-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
 }
 
-.option-btn:hover { 
-    background: #FFEAF0; 
-    border-color: var(--sp-pink); 
+/* เอฟเฟกต์ตอนโฮเวอร์ (Hover) หรือใช้นิ้วแตะเลือกช้อยส์ */
+.option-btn:hover {
+    background: rgba(233, 90, 120, 0.18);      /* เพิ่มความเข้มชมพูขึ้นมาตอนโฟกัส */
+    border-color: var(--sp-pink);               /* เส้นขอบสว่างคมชัดสีชมพู */
+    color: var(--sp-pink);                      /* เปลี่ยนฟอนต์คำตอบเป็นสีชมพูเฉดแบรนด์ */
+    transform: translateY(-2px);                 /* ลอยเด้งขึ้นมาเล็กน้อยเพิ่มความสนุก */
+    box-shadow: 0 6px 15px rgba(233, 90, 120, 0.15); /* รังสีออร่าสีชมพูฟุ้งๆ รอบปุ่ม */
 }
 
-/* แถบดาวน์โหลดด้านบน */
-.progress-bar { 
-    width: 100%; 
-    height: 6px; 
+/* Progress Bar ด้านบน */
+.progress-container {
+    position: absolute;
+    top: 25px; /* 🌟 ปรับเพิ่มจากเดิม (เช่น ถ้าเดิมเป็น 0 หรือ 10px) ให้ขยับต่ำลงมาหลบส่วนหัวของ iPhone */
+    left: 0;
+    width: 100%;
+    height: 6px;
     background: #eee; 
     z-index: 100;
 }
@@ -354,8 +370,50 @@ footer {
     box-shadow: 0 0 25px rgba(255, 0, 0, 0.4);
 }
 
-.share-notice { 
-    font-size: 12px; 
-    color: #999; 
-    margin-bottom: 10px;
+.btn-download {
+    background: var(--mint-teal);
+    color: var(--wine-red);
+    font-weight: 700;
+}
+
+.btn-download:hover {
+    box-shadow: 0 0 25px rgba(233, 0, 82, 0.4);
+}
+
+/* ปรับฟุตเตอร์ให้อยู่กับร่องกับรอย ไม่ลอยสวนขึ้นมา */
+footer {
+    text-align: center;
+    padding: 12px 14px;
+    background: rgba(255, 0, 0, 0.1);
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+    color: var(--sp-pink);              
+    font-family: "Quicksand", sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    
+    position: absolute;                   
+    bottom: 0;
+    left: 0;
+    width: 100%;                          
+    z-index: 99;
+    border-top: 1px solid rgba(255, 255, 255, 0.1); 
+    
+    /* 🌟 ปรับเซฟโซนของ iOS ด้านล่างสุด เพื่อดันเนื้อหาขึ้นมาหลบแถบคาดขาวของ iPhone */
+    padding-bottom: calc(15px + env(safe-area-inset-bottom)); 
+    box-sizing: border-box;
+}
+
+
+/* =========================================================================
+   5. ANIMATIONS
+   ========================================================================= */
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
 }
