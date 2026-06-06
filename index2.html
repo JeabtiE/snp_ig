@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S&P</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style2.css">
+    <script src="src2.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+
+<div class="phone-container">
+    <div class="progress-container">
+        <div class="progress-fill" id="progress"></div>
+    </div>
+
+    <div class="screen active" id="start-screen">
+        <img src="snp_cake.png" alt="Midnight Bakery" class="image">
+        <h1 class="story-title">S&P<br>เพื่อทุกๆ วันของคุณ</h1>
+        <p class="story-p">รู้มั้ยว่า คุณไม่จำเป็นต้องรอโอกาสพิเศษหรือรอให้ถึงวันเกิด... ในวันธรรมดาที่เหนื่อยล้า คุณก็คู่ควรกับเค้กดีๆสักชิ้นเพื่อฮีลใจตัวเอง</p>
+        <button class="btn btn-primary" onclick="startQuiz()">แล้วเราเหมาะกับเค้กแบบไหนล่ะ</button>
+    </div>
+
+    <!-- หน้าที่ 2: หน้าคั่นคำถาม (Intermission Screen) -->
+    <div class="screen" id="intermission-screen">
+        <div class="intermission-content-box">
+            <!-- เปลี่ยนจากตัวหนังสือเป็นแท็กรูปภาพแทน -->
+            <img id="intermission-img" class="intro-scene-image" src="images/star.png" alt="Scene Graphic">
+            <h2 id="typewriter-text" class="intermission-title"></h2>
+        </div>
+        <button class="btn btn-primary" id="next-to-quiz-btn" onclick="goToActualQuiz()" style="style: none;">เดินต่อ</button>
+    </div>
+
+    <div class="screen" id="quiz-screen">
+        <h3 id="question-text" class="question-title">คำถามกำลังอบใหม่...</h3>
+        <div class="options-grid" id="options-container"></div>
+    </div>
+
+    <div class="screen" id="box-tap-screen">
+        <div class="intermission-content-box">
+            <img id="cake-box-img" class="intro-scene-image clickable-box" src="snp_cake5.png" alt="Cake Box" onclick="tapCakeBox()">
+            
+            <div class="tap-progress-bar">
+                <div id="tap-progress-fill" class="tap-progress-fill"></div>
+            </div>
+            <p class="tap-hint-text">จิ้มกล่องเพื่อดูเค้กของคุณ!! (<span id="tap-count-text">0</span>/10)</p>
+            
+            <h2 id="box-story-text" class="intermission-title"></h2>
+        </div>
+    </div>
+
+    <div class="screen" id="result-screen">
+        <p class="result-lead">เค้กที่อบเพื่อคุณในคืนนี้คือ...</p>
+        
+        <div class="ticket-wrapper" id="download-area">
+            <div class="ticket-card">
+                <div class="ticket-header">#CracktheCakebyCTT</div>
+                <div class="ticket-body">
+                    <div id="cake-icon" class="cake-avatar">🧈</div>
+                    <div class="cake-type" id="cake-name">Loading...</div>
+                    <div class="divider"></div>
+                    <p id="cake-desc" class="cake-story"></p>
+                </div>
+            </div>
+        </div>
+        
+        <button class="btn btn-download" onclick="downloadTicket()">ดาวน์โหลดรูป</button>
+        <button class="btn btn-primary" onclick="resetQuiz()">กลับไปเล่นอีกรอบ</button>
+    </div>
+
+    <footer>
+        <p>Build by Cherry on top | © 2026</p>
+    </footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S&P Everyday Cake - Find Your Flavor</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+    <script src="src.js"></script>
+</head>
+<body>
+
+<div class="quiz-container">
+    <div class="progress-bar">
+        <div class="progress-fill" id="progress"></div>
+    </div>
+
+    <div class="screen active" id="start-screen">
+        <div class="main-icon">🍰</div>
+        <h1>S&P Everyday Cake<br>เพื่อทุกๆ วันของคุณ</h1>
+        <p class="subtitle">รู้มั้ยคุณไม่จำเป็นต้องรอโอกาสพิเศษหรือรอให้ถึงวันเกิด... ในวันธรรมดาที่เหนื่อยล้า คุณก็คู่ควรกับเค้กดีๆสักชิ้นเพื่อฮีลใจตัวเอง</p>
+        <button class="btn btn-primary" onclick="startQuiz()">เริ่มเล่นเลย</button>
+    </div>
+
+    <div class="screen" id="quiz-screen">
+        <h3 id="question-text">คำถามกำลังโหลด...</h3>
+        <div class="options-list" id="options-container"></div>
+    </div>
+
+    <div class="screen" id="result-screen">
+        <p class="result-lead">ผลลัพธ์ของคุณคือ...</p>
+        <div class="result-card">
+            <div id="cake-icon">🍫</div>
+            <div class="cake-type" id="cake-name">เค้กรสช็อกโกแลต</div>
+            <p id="cake-desc"></p>
+        </div>
+        <p class="share-notice">📸 แคปหน้าจอนี้ไปแชร์ลง IG Story พร้อมแท็ก @SandP_Delivery</p>
+        <button class="btn btn-primary" onclick="resetQuiz()">เล่นอีกครั้ง</button>
+        <a href="https://www.snpfood.com" target="_blank" class="btn btn-secondary">รับส่วนลดลองชิมเลย!</a>
+    </div>
+</div>
+
+    <footer>
+        <p>Build by jalaleab.__ | © 2026</p>
+    </footer>
+</body>
+</html>
