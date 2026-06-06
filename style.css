@@ -1,15 +1,21 @@
+/* =========================================================================
+   1. VARIABLES & GLOBAL STYLES
+   ========================================================================= */
 :root {
     --sp-blue: #0A3663;
     --sp-pink: #E95A78;
     --bg-color: #fffbf7;
     --text-color: #333;
     --light-gray: #fffbf7;
-    --border-gray: #fffbf7;
+    --border-gray: #fffbf7;     
+    --wine-red: #da291c;       
+    --warm-gold: #E3A852;      
 }
 
 * { 
     box-sizing: border-box; 
     font-family: 'Prompt', sans-serif; 
+    transition: all 0.3s ease;
 }
 
 body { 
@@ -21,178 +27,393 @@ body {
     align-items: center; 
     min-height: 100vh; 
     color: var(--text-color); 
+    overflow: hidden;
 }
 
-footer {
-    text-align: center;
-    padding: 12px;
-    background: rgba(255, 255, 255, 0.2);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    color: var(--sp-pink); 
-    font-family: "Quicksand", sans-serif;
-    font-size: 12px;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-}
-
-/* กล่องครอบตัวเกม ออกแบบสัดส่วนให้เหมือนแอปมือถือ */
-.quiz-container { 
-    background: #fffbf7; 
+/* 1. คุมกล่องมือถือหลัก (แก้เรื่อง footer ลอย) */
+.phone-container { 
+    background: linear-gradient(180deg, var(--midnight-bg) 0%, #ff4888 100%);
     width: 100%; 
-    max-width: 450px; 
-    height: 100vh; 
-    max-height: 850px; 
-    border-radius: 20px; 
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
+    max-width: 420px; 
+    
+    /* ใช้ความสูงยืดหยุ่นตามหน้าจอ iPhone จริง */
+    height: 100vh;
+    height: 100dvh; 
+    
+    /* 🌟 เอา max-height: 850px; ออก หรือครอบด้วย Media Query */
+    /* เพื่อไม่ให้กล่องหดสั้นจนฟุตเตอร์ลอยค้างบนหน้าจอมือถือยาวๆ ครับ */
+    
+    border-radius: 24px; 
     overflow: hidden; 
     display: flex; 
     flex-direction: column; 
     position: relative; 
+    border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-/* หน้าจอต่างๆ จะซ่อนไว้ก่อน และแสดงเฉพาะคลาสที่มี .active */
+/* ปรับปรุงเฉพาะหน้าจอมือถือจริง เพื่อให้ขอบโค้งมนและการยืดตัวแสดงผลได้เต็มจอ */
+@media (max-width: 480px) {
+    .phone-container {
+        border-radius: 0; /* บนมือถือจริงให้เต็มจอเนียนๆ ไปเลยครับ */
+    }
+}
+
+/* Base Screen Template */
 .screen { 
     display: none; 
-    padding: 30px; 
+    padding: 40px 30px; 
     flex-direction: column; 
     justify-content: center; 
     align-items: center; 
     height: 100%; 
     text-align: center; 
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 .screen.active { 
     display: flex; 
+    opacity: 1;
 }
 
-/* การจัดการข้อความ */
-h1 { 
-    color: var(--sp-blue); 
-    font-size: 28px; 
-    margin-bottom: 10px; 
+/* =========================================================================
+   2. หน้าคั่นคำถาม (INTERMISSION SCREEN) - แก้ไขจัดระเบียบปุ่มและสมดุลรูปภาพ
+   ========================================================================= */
+
+/* ปรับเฉพาะหน้าคั่นให้กระจายไอเทม ดันปุ่มลงด้านล่างสุดของจอสมาร์ทโฟน */
+#intermission-screen {
+    justify-content: space-between; 
+    padding: 60px 25px 60px 25px; 
 }
 
-#question-text {
-    font-size: 20px; 
-    color: var(--sp-blue);
-    margin-bottom: 20px;
+/* กล่องคุมเนื้อหาครึ่งบนให้ล็อกอยู่กึ่งกลาง ไม่โย้เย้ */
+.intermission-content-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    width: 100%;
 }
 
-.subtitle { 
-    font-size: 16px; 
-    line-height: 1.5; 
-    color: #666; 
+/* จัดรูปหน้าคั่นให้อยู่ตรงกลางเป๊ะ ไม่โดนตัวหนังสือเบียด */
+.intro-scene-image {
+    display: block;
+    width: 220px;         /* ปรับขนาดให้สมดุลพอดีกับสัดส่วนตัวหนังสือ */
+    height: auto;         
+    object-fit: contain;
+    margin: 0 auto 60px auto; 
+    animation: float 3s ease-in-out infinite; 
 }
 
-.main-icon {
-    font-size: 60px;
+/* ปรับกล่องข้อความพิมพ์วิ่งให้อยู่กึ่งกลางจออย่างมั่นคง */
+.intermission-title {
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.8;
+    color: var(--wine-red);
+    max-width: 85%;
+    min-height: 120px; 
+    margin: 0 auto;
+    text-align: center;
+    display: block;      /* เปลี่ยนจาก flex เป็น block เพื่อแก้การเบียดซ้าย */
+    position: relative;  /* รองรับคำสั่งลอยตัวของเส้นกะพริบ */
+}
+
+/* เส้นกะพริบพิมพ์ดีดแบบลอยตัว (Absolute) ไม่กินพื้นที่ ไม่ดันตัวอักษรเอียง */
+
+
+/* ดึงปุ่มในหน้าคั่นคำถามให้ตรึงอยู่ตำแหน่งล่างอย่างสวยงาม */
+#next-to-quiz-btn {
+    margin-top: auto; 
     margin-bottom: 10px;
+    width: 85%;
 }
 
-/* ปุ่มทั่วไป */
+/* =========================================================================
+   3. หน้าแรก (START SCREEN) & หน้าควิซ (QUIZ SCREEN)
+   ========================================================================= */
+.bakery-window {
+    font-size: 70px;
+    margin-bottom: 20px;
+    animation: float 3s ease-in-out infinite;
+}
+
+.story-title {
+    color: var(--wine-red);
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0 0 15px 0;
+}
+
+.story-p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text-color);
+    margin-bottom: 35px;
+    font-weight: 300;
+}
+
+.image {
+    width: 250px;              
+    height: auto;              
+    margin-bottom: 10px;        
+    filter: drop-shadow(0 0 15px rgba(227, 168, 82, 0.3)); 
+    animation: float 2s ease-in-out infinite; 
+}
+
+/* หน้าควิซและกล่องช้อยส์ */
+.question-title {
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1.6;
+    color: var(--wine-red);
+    margin-bottom: 60px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.options-grid {
+    width: 100%;
+}
+
+/* การ์ดช้อยส์คำตอบสไตล์ Glassmorphism ชมพูอ่อนจางๆ เบลอละมุน */
+.option-btn {
+    background: rgba(233, 90, 120, 0.08); /* ใช้สีชมพู S&P (--sp-pink) แบบโปร่งแสงจางๆ 8% */
+    border: 1px solid rgba(233, 90, 120, 0.15); /* ขอบเส้นสีชมพูบางเบา */
+    color: #333333;                             /* สีตัวอักษรคำตอบเข้มพอดีให้จัดเจน */
+    padding: 16px 20px;
+    width: 100%;
+    border-radius: 16px;                        /* ความโค้งมนสไตล์โมเดิร์น */
+    margin-bottom: 12px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+    
+    /* หัวใจหลักของเอฟเฟกต์กระจกฝ้า (Glassmorphism) */
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    
+    /* เพิ่ม Shadow จางๆ ให้ปุ่มดูลอยมีมิติเหนือกราวด์ */
+    box-shadow: 0 4px 12px rgba(233, 90, 120, 0.04);
+    transition: background 0.3s ease, border-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+/* เอฟเฟกต์ตอนโฮเวอร์ (Hover) หรือใช้นิ้วแตะเลือกช้อยส์ */
+.option-btn:hover {
+    background: rgba(233, 90, 120, 0.18);      /* เพิ่มความเข้มชมพูขึ้นมาตอนโฟกัส */
+    border-color: var(--sp-pink);               /* เส้นขอบสว่างคมชัดสีชมพู */
+    color: var(--sp-pink);                      /* เปลี่ยนฟอนต์คำตอบเป็นสีชมพูเฉดแบรนด์ */
+    transform: translateY(-2px);                 /* ลอยเด้งขึ้นมาเล็กน้อยเพิ่มความสนุก */
+    box-shadow: 0 6px 15px rgba(233, 90, 120, 0.15); /* รังสีออร่าสีชมพูฟุ้งๆ รอบปุ่ม */
+}
+
+/* Progress Bar ด้านบน */
+.progress-container {
+    position: absolute;
+    top: 25px; /* 🌟 ปรับเพิ่มจากเดิม (เช่น ถ้าเดิมเป็น 0 หรือ 10px) ให้ขยับต่ำลงมาหลบส่วนหัวของ iPhone */
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: #eee; 
+    z-index: 100;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--sp-pink);
+    width: 0%;
+    box-shadow: 0 0 10px var(--sp-pink);
+}
+
+/* ตกแต่งรูปกล่องให้เปลี่ยนเมาส์เป็นรูปมือ ชวนให้กด */
+.clickable-box {
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* หลอดพลัง Progress บังคับการแกะกล่องเค้ก */
+.tap-progress-bar {
+    width: 60%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    margin: 15px auto 5px auto;
+    overflow: hidden;
+    border: 1px solid rgba(233, 90, 120, 0.2);
+}
+
+.tap-progress-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--sp-pink); /* วิ่งเป็นสีชมพูหวานๆ */
+    box-shadow: 0 0 8px var(--sp-pink);
+    transition: width 0.1s ease-out; /* ปรับให้ขยับตามนิ้วกดไวขึ้น */
+}
+
+/* ข้อความคำแนะนำการจิ้มกล่อง */
+.tap-hint-text {
+    font-size: 12px;
+    color: var(--warm-gold);
+    margin-bottom: 20px;
+    opacity: 0.9;
+}
+
+/* แอนิเมชันตอนโดนนิ้วกดรัวๆ สั่งให้กล่องเค้กสั่นดุ๊กดิ๊กสมจริง */
+.shake-animation {
+    animation: boxShake 0.15s linear infinite;
+}
+
+@keyframes boxShake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(0px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(2px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(2px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+/* =========================================================================
+   4. หน้าตั๋วผลลัพธ์ (RESULT SCREEN)
+   ========================================================================= */
+.ticket-wrapper {
+    background: transparent;
+    padding: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.ticket-card {
+    background: var(--cream-light);
+    color: #1A1D24;
+    width: 100%;
+    border-radius: 18px;
+    margin: 20px 0;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    overflow: hidden;
+}
+
+.ticket-header {
+    background: var(--wine-red); 
+    color: var(--light-gray);
+    font-size: 11px;
+    letter-spacing: 2px;
+    padding: 10px;
+    font-weight: 600;
+}
+
+.ticket-body {
+    padding: 28px 22px;
+}
+
+.cake-avatar { font-size: 55px; margin-bottom: 10px; }
+
+.cake-type { 
+    font-size: 21px; 
+    color: var(--sp-pink); 
+    font-weight: 700; 
+}
+
+.divider {
+    border-top: 2px dashed #D2CBD4;
+    margin: 16px 0;
+}
+
+.cake-story { font-size: 14px; line-height: 1.6; color: #333333; text-align: left; margin: 0;}
+.result-lead { font-size: 14px; color: #CED4DA; margin: 0; }
+.share-hint { font-size: 11px; color: #CED4DA; margin-bottom: 15px; opacity: 0.8;}
+
+/* ปุ่มควบคุมส่วนล่าง */
 .btn { 
-    color: white; 
     border: none; 
-    padding: 15px 40px; 
-    font-size: 18px; 
-    font-weight: bold; 
-    border-radius: 30px; 
+    padding: 16px 32px; 
+    font-size: 16px; 
+    font-weight: 600; 
+    border-radius: 50px; 
     cursor: pointer; 
-    transition: transform 0.2s; 
-    width: 80%; 
+    width: 85%; 
     margin-top: 15px; 
     text-decoration: none;
     display: inline-block;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
 .btn:hover { 
-    transform: scale(1.05); 
+    transform: translateY(-3px);
 }
 
 .btn-primary {
-    background: var(--sp-pink); 
+    background: var(--wine-red); 
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    box-shadow: 0 0 25px rgba(227, 168, 82, 0.4);
 }
 
 .btn-secondary {
-    background: var(--sp-blue);
+    background: var(--sp-pink);
+    color: white;
 }
 
-/* ปุ่มตัวเลือกคำตอบ */
-.options-list { 
-    width: 100%; 
-    margin-top: 10px; 
+.btn-secondary:hover {
+    box-shadow: 0 0 25px rgba(255, 0, 0, 0.4);
 }
 
-.option-btn { 
-    background: var(--light-gray); 
-    border: 2px solid var(--border-gray); 
-    padding: 15px; 
-    width: 100%; 
-    border-radius: 15px; 
-    margin-bottom: 12px; 
-    font-size: 16px; 
-    cursor: pointer; 
-    text-align: left; 
-    transition: all 0.2s; 
+.btn-download {
+    background: var(--mint-teal);
+    color: var(--wine-red);
+    font-weight: 700;
 }
 
-.option-btn:hover { 
-    background: #FFEAF0; 
-    border-color: var(--sp-pink); 
+.btn-download:hover {
+    box-shadow: 0 0 25px rgba(233, 0, 82, 0.4);
 }
 
-/* แถบดาวน์โหลดด้านบน */
-.progress-bar { 
-    width: 100%; 
-    height: 6px; 
-    background: #eee; 
-    position: absolute; 
-    top: 0; 
-    left: 0; 
+/* ปรับฟุตเตอร์ให้อยู่กับร่องกับรอย ไม่ลอยสวนขึ้นมา */
+footer {
+    text-align: center;
+    padding: 12px 14px;
+    background: rgba(255, 0, 0, 0.1);
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+    color: var(--sp-pink);              
+    font-family: "Quicksand", sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    
+    position: absolute;                   
+    bottom: 0;
+    left: 0;
+    width: 100%;                          
+    z-index: 99;
+    border-top: 1px solid rgba(255, 255, 255, 0.1); 
+    
+    /* 🌟 ปรับเซฟโซนของ iOS ด้านล่างสุด เพื่อดันเนื้อหาขึ้นมาหลบแถบคาดขาวของ iPhone */
+    padding-bottom: calc(15px + env(safe-area-inset-bottom)); 
+    box-sizing: border-box;
 }
 
-.progress-fill { 
-    height: 100%; 
-    background: var(--sp-pink); 
-    width: 0%; 
-    transition: width 0.3s; 
+
+/* =========================================================================
+   5. ANIMATIONS
+   ========================================================================= */
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
 }
 
-/* หน้าแสดงผลลัพธ์ */
-.result-lead {
-    text-align: center; 
-    margin: 0;
-}
-
-.result-card { 
-    background: #FFF; 
-    border: 3px dashed var(--sp-pink); 
-    padding: 25px; 
-    border-radius: 15px; 
-    margin: 20px 0; 
-    width: 100%; 
-}
-
-#cake-icon {
-    font-size: 50px;
-}
-
-.cake-type { 
-    font-size: 24px; 
-    color: var(--sp-pink); 
-    font-weight: bold; 
-    margin: 10px 0; 
-}
-
-#cake-desc {
-    font-size: 15px;
-    color: #444;
-}
-
-.share-notice { 
-    font-size: 12px; 
-    color: #999; 
-    margin-bottom: 10px;
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
 }
