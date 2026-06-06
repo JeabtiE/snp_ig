@@ -379,39 +379,3 @@ function resetQuiz() {
     document.getElementById('start-screen').classList.add('active');
     document.getElementById('progress').style.width = `0%`;
 }
-
-// =========================================================================
-// 4. ระบบดาวน์โหลดรูปภาพตั๋วผลลัพธ์ (HTML to Image)
-// =========================================================================
-function downloadTicket() {
-    const targetElement = document.getElementById("download-area");
-    const downloadButton = document.querySelector(".btn-download");
-    
-    downloadButton.innerText = "กำลังปรุงรูปภาพ...";
-    downloadButton.style.opacity = "0.7";
-    downloadButton.disabled = true;
-
-    html2canvas(targetElement, {
-        backgroundColor: "#1A1D24", 
-        scale: 2,                                  
-        logging: false,
-        useCORS: true              
-    }).then(canvas => {
-        const imageURL = canvas.toDataURL("image/png");
-        const createDownloadLink = document.createElement("a");
-        
-        createDownloadLink.download = "sp-everyday-cake-ticket.png"; 
-        createDownloadLink.href = imageURL;
-        createDownloadLink.click(); 
-
-        downloadButton.innerText = "ดาวน์โหลดรูปเสร็จสิ้น";
-        downloadButton.style.opacity = "1";
-        downloadButton.disabled = false;
-    }).catch(error => {
-        console.error("เกิดข้อผิดพลาดในการดาวน์โหลดรูปภาพ:", error);
-        alert("ขออภัย ระบบไม่สามารถดาวน์โหลดรูปภาพได้ในขณะนี้ กรุณาแคปหน้าจอแทนนะครับ");
-        downloadButton.innerText = "ดาวน์โหลดรูปเสร็จสิ้น";
-        downloadButton.style.opacity = "1";
-        downloadButton.disabled = false;
-    });
-}
