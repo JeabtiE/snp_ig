@@ -7,7 +7,7 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <script src="src.js"></script>
+    <script src="src.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
@@ -17,21 +17,24 @@
         <div class="progress-fill" id="progress"></div>
     </div>
 
-    <div class="screen active" id="start-screen">
-        <img src="snp_cake.png" alt="Midnight Bakery" class="image">
-        <h1 class="story-title">S&P<br>เพื่อทุกๆ วันของคุณ</h1>
-        <p class="story-p">รู้มั้ยว่า คุณไม่จำเป็นต้องรอโอกาสพิเศษหรือรอให้ถึงวันเกิด... ในวันธรรมดาที่เหนื่อยล้า คุณก็คู่ควรกับเค้กดีๆสักชิ้นเพื่อฮีลใจตัวเอง</p>
-        <button class="btn btn-primary" onclick="startQuiz()">แล้วเราเหมาะกับเค้กแบบไหนล่ะ</button>
+    <div class="lang-switch-container" id="lang-switcher">
+        <button onclick="changeLanguage('th')" class="lang-btn active" id="btn-lang-th">TH</button>
+        <button onclick="changeLanguage('en')" class="lang-btn" id="btn-lang-en">EN</button>
     </div>
 
-    <!-- หน้าที่ 2: หน้าคั่นคำถาม (Intermission Screen) -->
+    <div class="screen active" id="start-screen">
+        <img src="snp_cake.png" alt="Midnight Bakery" class="image">
+        <h1 class="story-title" id="start-title">เหนื่อยไหมวันนี้<br>ให้ S&P เราดูแล</h1>
+        <p class="story-p" id="start-desc">ไม่จำเป็นต้องรอโอกาสพิเศษ แค่ในวันธรรมดาที่เหนื่อยล้า<br>คุณก็คู่ควรกับเค้กดีๆสักชิ้นเพื่อฮีลใจตัวเอง</p>
+        <button class="btn btn-primary" id="start-quiz-btn" onclick="startQuiz()">ฉันเอง "เค้ก" ก้อนนั้น</button>
+    </div>
+
     <div class="screen" id="intermission-screen">
         <div class="intermission-content-box">
-            <!-- เปลี่ยนจากตัวหนังสือเป็นแท็กรูปภาพแทน -->
             <img id="intermission-img" class="intro-scene-image" src="images/star.png" alt="Scene Graphic">
             <h2 id="typewriter-text" class="intermission-title"></h2>
         </div>
-        <button class="btn btn-primary" id="next-to-quiz-btn" onclick="goToActualQuiz()" style="style: none;">เดินต่อ</button>
+        <button class="btn btn-primary" id="next-to-quiz-btn" onclick="goToActualQuiz()">เดินต่อ</button>
     </div>
 
     <div class="screen" id="quiz-screen">
@@ -46,33 +49,30 @@
             <div class="tap-progress-bar">
                 <div id="tap-progress-fill" class="tap-progress-fill"></div>
             </div>
-            <p class="tap-hint-text">จิ้มกล่องเพื่อดูเค้กของคุณ!! (<span id="tap-count-text">0</span>/10)</p>
+            <p class="tap-hint-text" id="tap-hint-container">
+                <span id="tap-hint-msg">จิ้มกล่องเพื่อดูเค้กของคุณ!!</span> (<span id="tap-count-text">0</span>/10)
+            </p>
             
             <h2 id="box-story-text" class="intermission-title"></h2>
         </div>
     </div>
 
-    <div class="screen" id="result-screen">
-        <p class="result-lead">เค้กที่อบเพื่อคุณในคืนนี้คือ...</p>
-        
-        <div class="ticket-wrapper" id="download-area">
-            <div class="ticket-card">
-                <div class="ticket-header">#CracktheCakebyCTT</div>
-                <div class="ticket-body">
-                    <div id="cake-icon" class="cake-avatar">🧈</div>
-                    <div class="cake-type" id="cake-name">Loading...</div>
-                    <div class="divider"></div>
-                    <p id="cake-desc" class="cake-story"></p>
-                </div>
-            </div>
-        </div>
-        
-        <button class="btn btn-download" onclick="downloadTicket()">ดาวน์โหลดรูป</button>
-        <button class="btn btn-primary" onclick="resetQuiz()">กลับไปเล่นอีกรอบ</button>
+    <div id="result-screen" class="screen">
+    <p id="result-lead-text">เค้กที่อบเพื่อคุณในคืนนี้คือ...</p>
+    
+    <div id="download-area">
+        <img id="result-cake-image" src="" alt="Result Cake" style="width: 100%; max-width: 500px; display: block; margin: 0 auto; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+    </div>
+
+    <div class="result-buttons" style="margin-top: 20px; text-align: center;">
+        <button class="action-btn" onclick="downloadTicket()"><span id="download-btn-text">ดาวน์โหลดรูป</span></button>
+        <button class="action-btn ig-btn" onclick="shareToInstagramStory()"><span id="share-ig-btn-text">แชร์ลง IG Story</span></button>
+        <button class="action-btn retry-btn" onclick="resetQuiz()"><span id="retry-btn-text">กลับไปเล่นอีกรอบ</span></button>
+    </div>
     </div>
 
     <footer>
-        <p>Build by jalaleab.__ | © 2026</p>
+    <p>Build by Cherry on top | © 2026<br><span id="footer-competition-text">เนื้อหานี้สร้างขึ้นสำหรับการแข่งขัน Crack the Cake เท่านั้น</span></p>
     </footer>
 
 </div>

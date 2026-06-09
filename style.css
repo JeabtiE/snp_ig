@@ -1,5 +1,5 @@
 /* =========================================================================
-   1. VARIABLES & GLOBAL STYLES
+   1. VARIABLES & GLOBAL STYLES (คงสีเดิมของน้าไว้ 100% เป๊ะ)
    ========================================================================= */
 :root {
     --sp-blue: #0A3663;
@@ -30,7 +30,7 @@ body {
     overflow: hidden;
 }
 
-/* 1. คุมกล่องมือถือหลัก */
+/* 1. คุมกล่องมือถือหลัก (สีเดิมของน้า) */
 .phone-container { 
     background: linear-gradient(180deg, var(--midnight-bg) 0%, #ff4888 100%);
     width: 100%; 
@@ -55,7 +55,7 @@ body {
     }
 }
 
-/* Base Screen Template - 🌟 ปรับปรุงการจัดวางบาลานซ์ให้ไม่กองด้านบน */
+/* Base Screen Template - 🌟 คงการปรับปรุงความบาลานซ์ไม่กองด้านบนไว้ */
 .screen { 
     display: none; 
     padding: 70px 24px calc(100px + env(safe-area-inset-bottom)) 24px; 
@@ -76,6 +76,45 @@ body {
 .screen.active { 
     display: flex; 
     opacity: 1;
+}
+
+/* =========================================================================
+   ปุ่มเปลี่ยนภาษา (ปรับดีไซน์ให้ใช้โทนสีแบรนด์ของน้า และลอยบนขวาหน้าแรก)
+   ========================================================================= */
+.lang-switch-container {
+    position: absolute;
+    top: 45px; 
+    right: 20px;
+    display: flex;
+    gap: 8px;
+    z-index: 110;
+}
+
+.lang-btn {
+    background: rgba(233, 90, 120, 0.12); /* ใช้สีชมพูจางสไตล์น้า */
+    border: 1px solid rgba(233, 90, 120, 0.3);
+    color: var(--text-color);
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: 'Prompt', sans-serif;
+    transition: all 0.2s ease;
+}
+
+.lang-btn:hover {
+    background: var(--wine-red);
+    color: #ffffff;
+    border-color: var(--wine-red);
+    transform: translateY(-1px);
+}
+
+.lang-btn.active {
+    background: var(--wine-red); /* ไฮไลท์สีชมพูแบรนด์เด่นชัด */
+    color: #ffffff;
+    border-color: var(--wine-red);
+    box-shadow: 0 4px 10px rgba(233, 90, 120, 0.25);
 }
 
 /* =========================================================================
@@ -199,7 +238,7 @@ body {
 .option-btn {
     background: rgba(233, 90, 120, 0.08); 
     border: 1px solid rgba(233, 90, 120, 0.15); 
-    color: #333333;                             
+    color: #333333;                                                          
     padding: 16px 20px;
     width: 100%;
     border-radius: 16px;                        
@@ -276,24 +315,6 @@ body {
     color: var(--warm-gold);
     margin-bottom: 20px;
     opacity: 0.9;
-}
-
-.shake-animation {
-    animation: boxShake 0.15s linear infinite;
-}
-
-@keyframes boxShake {
-    0% { transform: translate(1px, 1px) rotate(0deg); }
-    10% { transform: translate(-1px, -2px) rotate(-1deg); }
-    20% { transform: translate(-3px, 0px) rotate(1deg); }
-    30% { transform: translate(0px, 2px) rotate(0deg); }
-    40% { transform: translate(1px, -1px) rotate(1deg); }
-    50% { transform: translate(-1px, 2px) rotate(-1deg); }
-    60% { transform: translate(-3px, 1px) rotate(0deg); }
-    70% { transform: translate(2px, 1px) rotate(-1deg); }
-    80% { transform: translate(-1px, -1px) rotate(1deg); }
-    90% { transform: translate(2px, 2px) rotate(0deg); }
-    100% { transform: translate(1px, -2px) rotate(-1deg); }
 }
 
 /* =========================================================================
@@ -398,39 +419,131 @@ body {
     box-shadow: 0 0 25px rgba(233, 0, 82, 0.4);
 }
 
-/* ฟุตเตอร์ */
+/* =========================================================================
+   สไตล์ปุ่มแอ็กชันหน้าสรุปผล (Result Buttons Styles)
+   ========================================================================= */
+
+/* คอมเทนเนอร์จัดวางปุ่ม */
+.result-buttons {
+    margin-top: 25px;
+    margin-bottom: 15px;
+    text-align: center;
+    display: flex;
+    flex-direction: column; /* เรียงปุ่มเป็นแนวตั้งตาม UI ของน้า */
+    gap: 12px;             /* ระยะห่างระหว่างปุ่ม */
+    padding: 0 20px;       /* เว้นระยะขอบซ้ายขวา */
+    align-items: center;
+}
+
+/* สไตล์ปุ่มพื้นฐาน (ดาวน์โหลดรูป) */
+.action-btn {
+    width: 100%;
+    max-width: 320px;      /* จำกัดความกว้างไม่ให้ล้นจอ */
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: inherit;  /* ใช้ฟอนต์เดียวกับระบบหลัก */
+    color: #ffffff;
+    background-color: #d62828; /* สีแดงหลักของ S&P */
+    border: none;
+    border-radius: 50px;   /* ทำปุ่มมนสไตล์โค้งสวยงาม */
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease-in-out;
+    outline: none;
+}
+
+/* เอฟเฟกต์ตอนเอาเมาส์ไปชี้ปุ่ม */
+.action-btn:hover {
+    background-color: #b31d1d; /* สีแดงเข้มขึ้นเล็กน้อย */
+    transform: translateY(-2px); /* ปุ่มลอยขึ้นนิดๆ */
+    box-shadow: 0 6px 12px rgba(179, 29, 29, 0.3);
+}
+
+/* เอฟเฟกต์ตอนกดปุ่ม */
+.action-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* ปุ่มสีพิเศษ: ปุ่มแชร์ลง IG Story */
+.action-btn.ig-btn {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+.action-btn.ig-btn:hover {
+    filter: brightness(1.05); /* สว่างขึ้นตอนชี้ */
+    box-shadow: 0 6px 12px rgba(220, 39, 67, 0.3);
+}
+
+/* ปุ่มสีพิเศษ: ปุ่มกลับไปเล่นอีกรอบ */
+.action-btn.retry-btn {
+    background-color: #f7f7f7;
+    color: #555555;
+    border: 1px solid #dddddd;
+}
+
+.action-btn.retry-btn:hover {
+    background-color: #eeeeee;
+    color: #333333;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* ฟุตเตอร์บางเฉียบ */
 footer {
     text-align: center;
-    padding: 12px 14px;
-    background: rgba(255, 0, 0, 0.1);
-    -webkit-backdrop-filter: blur(15px);
+    padding: 6px 14px;
+    height: 40px; 
+    background: rgba(255, 0, 0, 0.05); 
+    -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
-    color: var(--sp-pink);              
+    color: var(--sp-pink, #E95A78); 
     font-family: "Quicksand", sans-serif;
-    font-size: 12px;
+    font-size: 10px; 
     letter-spacing: 0.5px;
-    
     position: absolute;                   
     bottom: 0;
     left: 0;
     width: 100%;                          
     z-index: 99;
-    border-top: 1px solid rgba(255, 255, 255, 0.1); 
-    
-    padding-bottom: calc(15px + env(safe-area-inset-bottom)); 
+    border-top: 1px solid rgba(255, 255, 255, 0.05); 
     box-sizing: border-box;
     pointer-events: none; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* =========================================================================
-   5. ANIMATIONS
+   5. ANIMATIONS & CURSOR EFFECTS
    ========================================================================= */
-@keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
+.shake-animation {
+    animation: boxShake 0.15s linear infinite;
+}
+
+@keyframes boxShake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(0px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(2px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(2px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); }
 }
 
 @keyframes float {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-8px); }
+}
+
+
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
 }
