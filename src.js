@@ -469,51 +469,159 @@ function showResult() {
     }
 }
 
-function resetQuiz() {
-    currentQuestionIndex = 0;
-    currentIntroIndex = 0;
-    scores = { butter: 0, layer: 0, chiffon: 0, fruit: 0, choco: 0 };
-    document.getElementById('result-screen').classList.remove('active');
-    if(document.getElementById('box-tap-screen')) document.getElementById('box-tap-screen').classList.remove('active');
-    document.getElementById('start-screen').classList.add('active');
-    document.getElementById('lang-switcher').style.display = 'flex'; 
-    document.getElementById('progress').style.width = `0%`;
-}
+/* =========================================================================
+   FUNCTIONS FOR RESULT SCREEN (ระบบปุ่มหน้าผลลัพธ์แบบผสมผสาน)
+   ========================================================================= */
 
-function downloadTicket() {
-    const area = document.getElementById('download-area');
-    html2canvas(area, { useCORS: true, backgroundColor: null }).then(canvas => {
-        const link = document.createElement('a');
-        link.download = `My_SP_Cake_${currentWinningType}_${currentLang}.png`;
-        link.href = canvas.toDataURL();
-        link.click();
-    });
-}
-
-function shareToInstagramStory() {
-    const area = document.getElementById('download-area');
-    
-    html2canvas(area, { useCORS: true, backgroundColor: null }).then(canvas => {
-        const link = document.createElement('a');
-        link.download = `My_SP_Cake_${currentWinningType}_${currentLang}.png`;
-        link.href = canvas.toDataURL('image/png');
-        link.click();
+/**
+ * 1. ฟังก์ชันสำหรับปุ่ม "ดาวน์โหลดรูป" (ปุ่มหลัก)
+ * ทำงานโดยเรียกหน้าต่าง Share Sheet ของระบบ iOS/Android ขึ้นมาเพื่อให้กด Save Image ลงคลังภาพได้ทันที
+ */
+async function downloadTicket() {
+    try {
+        // ดึง URL ของภาพตั๋วผลลัพธ์ที่เจนขึ้นมา (รองรับทั้ง Base64 จาก html2canvas หรือ URL ไฟล์ภาพ)
+        const imageUrl = document.getElementById("result-cake-image").src;
         
-        setTimeout(() => {
-            const instagramStoryUrl = "instagram://story-camera";
-            const webInstagramUrl = "https://www.instagram.com/";
+        if (!imageUrl || imageUrl === window.location.href) {
+            alert("ไม่พบรูปภาพผลลัพธ์ กรุณารอสักครู่ให้ระบบสร้างรูปสักครู่นะครับน้า");
+            return;
+        }
 
-            if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-                window.location.href = instagramStoryUrl;
-                
-                setTimeout(() => {
-                    if (!document.hidden) {
-                        window.open(webInstagramUrl, '_blank');
-                    }
-                }, 1500);
-            } else {
-                window.open(webInstagramUrl, '_blank');
+        // เช็กว่าเบราว์เซอร์และระบบปฏิบัติการรองรับ Web Share API และระบบส่งไฟล์ไหม (iOS Safari รองรับตัวนี้)
+        if (navigator.share && navigator.canShare) {
+            // แปลงข้อมูลรูปภาพ (Data URL / Base64) ให้กลายเป็น Blob
+            const response = await fetch(imageUrl);
+            const blob = await response.blob();
+            
+            // สร้างโครงสร้างไฟล์ที่ระบบปฏิบัติการบนมือถือเข้าใจ
+            const file = new File([blob], "My_SP_Cake.png", { type: blob.type });
+
+            // ตรวจสอบขั้นสุดท้ายว่าไฟล์พร้อมส่งเข้า Share Sheet หรือไม่
+            if (navigator.canShare({ files: [file] })) {
+                await navigator.share({
+                    files: [file],
+                    title: 'เค้กที่อบเพื่อคุณในคืนนี้',
+                    text: 'มาดูผลลัพธ์เค้กของฉันจาก S&P สิ! #CrackTheCake',
+                });
+                return; // ถ้า Share Sheet เด้งขึ้นมาสำเร็จให้จบการทำงานตรงนี้เลยครับ
             }
-        }, 500);
-    });
+        }
+        
+        // 🌟 Fallback SYSTEM: ถ้าเปิดในคอมพิวเตอร์ หรือเบราว์เซอร์เก่าที่ไม่รองรับ Web Share 
+        // ระบบจะสลับไปใช้วิธีระเบิดรูปในแท็บใหม่เพื่อให้ผู้ใช้กดบันทึกเองโดยอัตโนมัติทันทีครับ
+        openImageInNewTab(imageUrl);
+
+    } catch (error) {
+        console.error("การดาวน์โหลดหรือแชร์ผ่าน API ล้มเหลว:", error);
+        // หากเกิดปัญหาใดๆ ระหว่างแปลงไฟล์ ให้สลับไปใช้วิธีสำรองทันทีเพื่อไม่ให้ระบบค้าง
+        const imageUrl = document.getElementById("result-cake-image").src;
+        openImageInNewTab(imageUrl);
+    }
+}
+
+/**
+ * 2. ฟังก์ชันสำหรับปุ่ม "แชร์ลง IG Story"
+ * ทำงานโดยเปิดภาพเต็มจอแยกออกไปอีกแท็บ เพื่อหลีกเลี่ยงข้อจำกัดการบล็อกไฟล์ของแอป Instagram
+ */
+function shareToInstagramStory() {
+    const imageUrl = document.getElementById("result-cake-image").src;
+    
+    if (!imageUrl || imageUrl === window.location.href) {
+        alert("ไม่พบรูปภาพผลลัพธ์ กรุณารอสักครู่ครับน้า");
+        return;
+    }
+    
+    // เรียกฟังก์ชันเปิดหน้ารูปภาพเต็มจอ พร้อมส่งคำแนะนำที่เหมาะสมกับการไปแชร์บน IG
+    openImageInNewTab(imageUrl, "นำภาพนี้ไปอัปโหลดลง IG Story ของคุณได้เลย<br>แตะที่ภาพค้างไว้ แล้วเลือก 'บันทึกภาพ' หรือ 'คัดลอกรูปภาพ'");
+}
+
+/**
+ * 3. ฟังก์ชันกลาง (Helper) สำหรับสร้างหน้ารูปภาพแยกในแท็บใหม่
+ * ช่วยจัดกึ่งกลางรูปภาพให้สวยงามสไตล์แอปพลิเคชัน และรองรับการสัมผัสกดค้าง (Touch & Hold) ของ iOS/Android
+ */
+function openImageInNewTab(url, customHint = "แตะที่ภาพค้างไว้ แล้วเลือก 'บันทึกภาพ' เพื่อเซฟลงแกลเลอรี่ของคุณ") {
+    const newWindow = window.open();
+    if (newWindow) {
+        newWindow.document.write(`
+            <!DOCTYPE html>
+            <html lang="th">
+            <head>
+                <meta charset="UTF-8">
+                <title>Save Your Cake - S&P</title>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <link rel="preconnect" href="https://fonts.googleapis.com">
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+                <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+                <style>
+                    body { 
+                        margin: 0; 
+                        background: #121212; 
+                        display: flex; 
+                        flex-direction: column; 
+                        justify-content: center; 
+                        align-items: center; 
+                        min-height: 100vh; 
+                        font-family: 'Prompt', sans-serif; 
+                        color: #ffffff; 
+                        padding: 20px;
+                        box-sizing: border-box;
+                        -webkit-user-select: none; /* ป้องกันการคลุมดำข้อความโดยไม่ตั้งใจ */
+                    }
+                    img { 
+                        max-width: 100%; 
+                        max-height: 75vh; 
+                        object-fit: contain; 
+                        border-radius: 14px;
+                        box-shadow: 0 12px 36px rgba(0,0,0,0.6);
+                        /* อนุญาตให้สัมผัสและกดค้างเฉพาะที่ตัวรูปภาพเพื่อเรียกเมนูระบบของ iOS/Android */
+                        -webkit-touch-callout: default !important; 
+                        pointer-events: auto !important;
+                    }
+                    .hint-box { 
+                        margin-top: 22px; 
+                        background: rgba(255, 255, 255, 0.14); 
+                        backdrop-filter: blur(15px);
+                        -webkit-backdrop-filter: blur(15px);
+                        padding: 14px 24px; 
+                        border-radius: 30px; 
+                        font-size: 14px; 
+                        line-height: 1.5;
+                        text-align: center; 
+                        max-width: 90%;
+                        border: 1px solid rgba(255,255,255,0.12);
+                        box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+                        letter-spacing: 0.2px;
+                    }
+                </style>
+            </head>
+            <body>
+                <img src="${url}" alt="S&P Result Cake">
+                <div class="hint-box">${customHint}</div>
+            </body>
+            </html>
+        `);
+        newWindow.document.close();
+    } else {
+        // จัดการกรณีที่เบราว์เซอร์ของฝั่งผู้ใช้บล็อกหน้าต่าง Pop-up (เช่นบน Safari บางเครื่อง)
+        alert("โปรดเปิดใช้งานหรืออนุญาตให้เปิด 'หน้าต่างย่อย (Pop-up)' บนเบราว์เซอร์ของน้า เพื่อเก็บบันทึกรูปภาพลงแกลเลอรี่ครับ");
+    }
+}
+
+/**
+ * 4. ฟังก์ชันสำหรับปุ่ม "กลับไปเล่นอีกรอบ" (ระบบเดิมของน้า)
+ * เคลียร์ค่าและย้อนกลับหน้าแรกสุด
+ */
+function resetQuiz() {
+    // โค้ดเดิมของน้าสำหรับการล้างสถานะควิซ (ยกตัวอย่างเช่นย้ายหน้าจอกลับไปที่หน้าแรก)
+    // currentQuestion = 0;
+    // userAnswers = [];
+    
+    // เปลี่ยนหน้าจอกลับไปแสดงหน้าแรก
+    const screens = document.querySelectorAll('.screen');
+    screens.forEach(screen => screen.classList.remove('active'));
+    
+    const startScreen = document.getElementById('start-screen');
+    if (startScreen) {
+        startScreen.classList.add('active');
+    }
 }
