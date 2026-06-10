@@ -1,6 +1,4 @@
-// =========================================================================
-// 1. TRANSLATIONS (ข้อมูลคำแปล 2 ภาษา)
-// =========================================================================
+
 const translations = {
     th: {
         startTitle:   "เหนื่อยไหมวันนี้<br>ให้ S&amp;P เราดูแล",
@@ -13,7 +11,7 @@ const translations = {
         shareIGBtn:   "แชร์ลง IG Story",
         retryBtn:     "กลับไปเล่นอีกรอบ",
         footerText:   "เนื้อหานี้สร้างขึ้นสำหรับการแข่งขัน Crack the Cake เท่านั้น",
-        loadingMsgs:  ["พ่อครัวกำลังเอาเค้กออกจากเตา...", "ตกแต่งเค้กให้สวยงามนิดนึง...", "เค้กพร้อมเสิร์ฟแล้ว!!!"],
+        loadingMsgs:  ["พ่อครัวกำลังเอาเค้กออกจากเตา...", "แต่งหน้าเค้กให้สวยงามนิดนึง...", "เค้กออกจากเตาแล้ว!!!"],
         saveHint:     "แตะที่ภาพค้างไว้ แล้วเลือก \u2018บันทึกภาพ\u2019 เพื่อเซฟลงแกลเลอรี่ของคุณ",
         noImgAlert:   "ไม่พบรูปภาพผลลัพธ์ กรุณารอสักครู่แล้วลองใหม่อีกครั้ง"
     },
@@ -34,9 +32,6 @@ const translations = {
     }
 };
 
-// =========================================================================
-// 2. QUESTIONS (คำถาม + บทนำ 2 ภาษา)
-// =========================================================================
 const questions = [
     {
         intro: {
@@ -50,7 +45,7 @@ const questions = [
                 { text: "You must be really tired today, aren't you?...", img: "snp_cake8.png", btn: "Yeah, quite tired" },
                 { text: "Heavy studying, endless work, sometimes you don't even know why you're so exhausted.<br>Today was just so tiring that you accidentally fell asleep...", img: "snp_cake3.png", btn: "z Z z" },
                 { text: "Waking up again, you find yourself following a sweet aroma<br>until you stop right in front of a door. It's a cake shop!<br>It looks like the baker is baking a cake just for you.", img: "snp_cake7.png", btn: "Enter the shop" },
-                { text: "First, the baker has a few questions for you.<br>Don't stress over the answers, just be true to yourself.", img: "snp_cake4.png", btn: "I'm ready" }
+                { text: "First, the baker has a few questions for you.<br>Don't worry over the answers, just be true to yourself.", img: "snp_cake4.png", btn: "I'm ready" }
             ]
         },
         q: {
@@ -198,9 +193,6 @@ const questions = [
     }
 ];
 
-// =========================================================================
-// 3. RESULTS (รูปภาพผลลัพธ์แต่ละ type)
-// =========================================================================
 const results = {
     butter: { th: { img: "butter_th.png" }, en: { img: "butter_en.png" } },
     chiffon:{ th: { img: "chiffon_th.png"}, en: { img: "chiffon_en.png"} },
@@ -209,9 +201,6 @@ const results = {
     choco:  { th: { img: "choco_th.png"  }, en: { img: "choco_en.png"  } }
 };
 
-// =========================================================================
-// 4. STATE (ตัวแปรสถานะเกม)
-// =========================================================================
 let currentLang          = 'th';
 let currentQuestionIndex = 0;
 let currentIntroIndex    = 0;
@@ -223,21 +212,14 @@ let boxTapCount  = 0;
 let boxTapLocked = false;
 const TARGET_TAPS = 10;
 
-// =========================================================================
-// 5. HELPERS
-// =========================================================================
-
 function showScreen(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     const el = document.getElementById(id);
     if (el) el.classList.add('active');
 }
 
-/** Typewriter effect — รองรับ HTML tags (<br> ฯลฯ) โดย render เป็น innerHTML
- *  กดที่ text ระหว่างพิมพ์ → skip ไปแสดงข้อความทั้งหมดทันที
- */
-let _typewriteOnDone = null;   // เก็บ callback ปัจจุบันไว้ให้ skipTypewriter เรียกได้
-let _typewriteFullHtml = '';   // เก็บ html เต็มไว้สำหรับ skip
+let _typewriteOnDone = null;   
+let _typewriteFullHtml = '';   
 
 function typewrite(container, html, speed = 15, onDone = null) {
     clearInterval(typewriterInterval);
@@ -245,7 +227,6 @@ function typewrite(container, html, speed = 15, onDone = null) {
     _typewriteOnDone  = onDone;
     _typewriteFullHtml = html;
 
-    // แยก HTML string ออกเป็น tokens: text char หรือ tag เต็มๆ
     const tokens = [];
     const regex = /(<[^>]+>)|([^<])/g;
     let match;
@@ -267,11 +248,9 @@ function typewrite(container, html, speed = 15, onDone = null) {
     }, speed);
 }
 
-/** เรียกเมื่อผู้เล่นกดระหว่าง typewriter กำลังพิมพ์อยู่
- *  → หยุด interval แล้วแสดงข้อความทั้งหมดทันที + fire onDone
- */
+
 function skipTypewriter(container) {
-    if (!typewriterInterval) return;   // ไม่มีอะไรกำลังพิมพ์อยู่
+    if (!typewriterInterval) return;   
     clearInterval(typewriterInterval);
     typewriterInterval = null;
     container.innerHTML = _typewriteFullHtml;
@@ -286,9 +265,6 @@ function setProgress(pct) {
     if (el) el.style.width = `${pct}%`;
 }
 
-// =========================================================================
-// 6. LANGUAGE SWITCHING
-// =========================================================================
 function changeLanguage(lang) {
     currentLang = lang;
 
@@ -297,7 +273,6 @@ function changeLanguage(lang) {
 
     const t = translations[lang];
 
-    // ใช้ innerHTML สำหรับ field ที่มี <br>
     document.getElementById('start-title').innerHTML   = t.startTitle;
     document.getElementById('start-desc').innerHTML    = t.startDesc;
     document.getElementById('start-quiz-btn').innerText= t.startBtn;
@@ -330,9 +305,6 @@ function changeLanguage(lang) {
     }
 }
 
-// =========================================================================
-// 7. QUIZ FLOW
-// =========================================================================
 function startQuiz() {
     document.getElementById('lang-switcher').style.display = 'none';
     currentIntroIndex    = 0;
@@ -435,9 +407,6 @@ function selectAnswer(type) {
     }, 180);
 }
 
-// =========================================================================
-// 8. BOX TAP SCREEN
-// =========================================================================
 function showBoxTapScreen() {
     showScreen('box-tap-screen');
 
@@ -482,9 +451,6 @@ function tapCakeBox() {
     }
 }
 
-// =========================================================================
-// 9. LOADING SCREEN
-// =========================================================================
 function startLoadingScreen() {
     const loadingScreen = document.getElementById('loading-screen');
     if (!loadingScreen) { showResult(); return; }
@@ -518,9 +484,6 @@ function startLoadingScreen() {
     }, 30);
 }
 
-// =========================================================================
-// 10. RESULT SCREEN
-// =========================================================================
 function showResult() {
     showScreen('result-screen');
     setProgress(100);
@@ -539,9 +502,6 @@ function showResult() {
     }
 }
 
-// =========================================================================
-// 11. SHARE / DOWNLOAD
-// =========================================================================
 async function downloadTicket() {
     const img = document.getElementById('result-cake-image');
     if (!img || !img.src || img.src === window.location.href) {
@@ -582,18 +542,21 @@ async function shareToInstagramStory() {
         const file = new File([blob], 'BakeYourSoul.png', { type: blob.type });
 
         if (navigator.canShare && navigator.canShare({ files: [file] })) {
-            // Web Share API — ผู้ใช้เลือก Instagram จาก share sheet แล้วรูปจะติดไปด้วยเลย
             await navigator.share({ files: [file], title: '#CrackTheCake' });
         } else {
-            // Desktop หรือ browser ที่ไม่รองรับ → เปิดรูปใน tab ใหม่พร้อม hint บันทึก
             openImageInNewTab(img.src, translations[currentLang].saveHint);
         }
     } catch (err) {
-        if (err.name !== 'AbortError') {
-            console.warn('IG share fallback:', err);
-            openImageInNewTab(img.src, translations[currentLang].saveHint);
-        }
+        console.warn('IG share fallback:', err);
+        openImageInNewTab(img.src, translations[currentLang].saveHint);
     }
+
+    setTimeout(() => {
+        window.location.href = 'instagram://story-camera';
+        setTimeout(() => {
+            if (document.hasFocus()) window.open('https://www.instagram.com/', '_blank');
+        }, 1500);
+    }, 500);
 }
 
 function openImageInNewTab(url, hint) {
@@ -620,9 +583,7 @@ function openImageInNewTab(url, hint) {
     w.document.close();
 }
 
-// =========================================================================
-// 12. RESET
-// =========================================================================
+
 function resetQuiz() {
     currentQuestionIndex = 0;
     currentIntroIndex    = 0;
