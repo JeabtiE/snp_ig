@@ -1,54 +1,51 @@
-// =========================================================================
-// 1. คลังข้อมูลคำแปลและการสลับภาษา (Localization Data)
-// =========================================================================
+
 const translations = {
     th: {
-        startTitle: "เหนื่อยไหมวันนี้<br>ให้ S&P เราดูแล",
-        startDesc: "ไม่จำเป็นต้องรอโอกาสพิเศษ แค่ในวันธรรมดาที่เหนื่อยล้า คุณก็คู่ควรกับเค้กดีๆสักชิ้นเพื่อฮีลใจตัวเอง",
-        startBtn: "ฉันเอง “เค้ก” ก้อนนั้น",
-        tapHint: "จิ้มกล่องเพื่อดูเค้กของคุณ!!",
-        boxIntro: "พ่อครัววางกล่องเล็กๆ ลงบนโต๊ะแล้วบอกว่า... <br>“คุณไม่จำเป็นต้องรอโอกาสพิเศษ <br>แค่ในวันธรรมดาที่เหนื่อยล้า <br>คุณก็คู่ควรกับเค้กดีๆ สักชิ้นแล้ว”",
-        resultLead: "เค้กที่อบเพื่อคุณในคืนนี้คือ...",
-        downloadBtn: "ดาวน์โหลดรูป",
-        shareIGBtn: "แชร์ลง IG Story",
-        retryBtn: "กลับไปเล่นอีกรอบ",
-        footerText: "เนื้อหานี้สร้างขึ้นสำหรับการแข่งขัน Crack the Cake เท่านั้น"
+        startTitle:   "เหนื่อยไหมวันนี้<br>ให้ S&amp;P เราดูแล",
+        startDesc:    "ไม่จำเป็นต้องรอโอกาสพิเศษ แค่ในวันธรรมดาที่เหนื่อยล้า<br>คุณก็คู่ควรกับเค้กดีๆสักชิ้นเพื่อฮีลใจตัวเอง",
+        startBtn:     "ฉันเอง \u201cเค้ก\u201d ก้อนนั้น",
+        tapHint:      "จิ้มกล่องเพื่อดูเค้กของคุณ!!",
+        boxIntro:     "พ่อครัววางกล่องเล็กๆ ลงบนโต๊ะแล้วบอกว่า...<br>\u201cคุณไม่จำเป็นต้องรอโอกาสพิเศษ<br>แค่ในวันธรรมดาที่เหนื่อยล้า<br>คุณก็คู่ควรกับเค้กดีๆ สักชิ้นแล้ว\u201d",
+        resultLead:   "เค้กที่อบเพื่อคุณในคืนนี้คือ...",
+        downloadBtn:  "ดาวน์โหลดรูป",
+        shareIGBtn:   "แชร์ลง IG Story",
+        retryBtn:     "กลับไปเล่นอีกรอบ",
+        footerText:   "เนื้อหานี้สร้างขึ้นสำหรับการแข่งขัน Crack the Cake เท่านั้น",
+        loadingMsgs:  ["พ่อครัวกำลังเอาเค้กออกจากเตา...", "แต่งหน้าเค้กให้สวยงามนิดนึง...", "เค้กออกจากเตาแล้ว!!!"],
+        saveHint:     "แตะที่ภาพค้างไว้ แล้วเลือก \u2018บันทึกภาพ\u2019 เพื่อเซฟลงแกลเลอรี่ของคุณ",
+        noImgAlert:   "ไม่พบรูปภาพผลลัพธ์ กรุณารอสักครู่แล้วลองใหม่อีกครั้ง"
     },
     en: {
-        startTitle: "Feeling Tired Today?<br>Let S&P Take Care of You",
-        startDesc: "No need to wait for a special occasion. On an ordinary, exhausting day, you deserve a good piece of cake to heal your soul.",
-        startBtn: "I am that “Cake”",
-        tapHint: "Tap the box to open your cake!!",
-        boxIntro: "The baker places a small box on the table and says... <br>“You don't need to wait for a special occasion. <br>On an ordinary, tiring day, <br>you deserve a good piece of cake.”",
-        resultLead: "The cake baked specially for you tonight is...",
-        downloadBtn: "Download Image",
-        shareIGBtn: "Share to IG Story",
-        retryBtn: "Play Again",
-        footerText: "This content is created solely for the Crack the Cake competition."
+        startTitle:   "Feeling Tired Today?<br>Let S&amp;P Take Care of You",
+        startDesc:    "No need to wait for a special occasion.<br>On an ordinary, exhausting day,<br>you deserve a good piece of cake to heal your soul.",
+        startBtn:     "I am that \u201cCake\u201d",
+        tapHint:      "Tap the box to open your cake!!",
+        boxIntro:     "The baker places a small box on the table and says...<br>\u201cYou don\u2019t need to wait for a special occasion.<br>On an ordinary, tiring day,<br>you deserve a good piece of cake.\u201d",
+        resultLead:   "The cake baked specially for you tonight is...",
+        downloadBtn:  "Download Image",
+        shareIGBtn:   "Share to IG Story",
+        retryBtn:     "Play Again",
+        footerText:   "This content is created solely for the Crack the Cake competition.",
+        loadingMsgs:  ["The baker is baking your cake...", "Adding the finishing touches...", "Your cake is out of the oven!!!"],
+        saveHint:     "Press and hold the image, then select \u2018Save Image\u2019 to save it to your gallery.",
+        noImgAlert:   "Result image not found. Please wait a moment and try again."
     }
 };
 
-// =========================================================================
-// 2. คลังข้อมูลคำถาม 2 ภาษา (Questions & Multilingual Intros)
-// =========================================================================
 const questions = [
     {
         intro: {
             th: [
-                { text: "วันนี้เหนื่อยมากใช่ไหม...", img: "snp_cake2.png", btn: "ก็เหนื่อยนะ" },
-                { text: "เรียนก็หนัก งานก็เยอะ บางทีก็ไม่รู้ด้วยซ้ำว่าเหนื่อยเพราะอะไร", img: "snp_cake3.png", btn: "เออจริง" },
-                { text: "วันนี้ก็เหนื่อยมากจนเผลอหลับไป...", img: "snp_cake4.png", btn: "z Z z" },
-                { text: "รู้สึกตัวอีกทีคุณก็เดินตามกลิ่นหอมหวานจนมาหยุดอยู่หน้าประตูบานนึง", img: "snp_cake3.png", btn: "ที่นี่ที่ไหนกัน!!!" },
-                { text: "ร้านขนมเค้กล่ะ เหมือนพ่อครัวจะอบเค้กรอคุณอยู่นะ", img: "snp_cake6.png", btn: "เข้าไปในร้าน" },
-                { text: "ก่อนอื่น พ่อครัวมีเรื่องอยากถามคุณนิดหน่อย ไม่ต้องเครียดที่จะตอบนะ แค่ตอบแบบที่มันเป็นคุณก็พอ", img: "snp_cake.png", btn: "พร้อมละ" }
+                { text: "วันนี้เหนื่อยมากใช่ไหม...", img: "snp_cake10.png", btn: "ก็เหนื่อยนะ" },
+                { text: "เรียนก็หนัก งานก็เยอะ บางทีก็ไม่รู้ด้วยซ้ำว่าเหนื่อยเพราะอะไร<br>วันนี้ก็เหนื่อยมากจนเผลอหลับไป...", img: "snp_cake3.png", btn: "z Z z" },
+                { text: "รู้สึกตัวอีกทีคุณก็เดินตามกลิ่นหอมหวานจนมาหยุดอยู่หน้าประตูบานนึง ร้านขนมเค้กล่ะ<br>เหมือนพ่อครัวจะอบเค้กรอคุณอยู่นะ", img: "snp_cake7.png", btn: "เข้าไปในร้าน" },
+                { text: "ก่อนอื่น พ่อครัวมีเรื่องอยากถามคุณนิดหน่อย<br>ไม่ต้องเครียดที่จะตอบนะ แค่ตอบแบบที่มันเป็นคุณก็พอ", img: "snp_cake4.png", btn: "พร้อมละ" }
             ],
             en: [
-                { text: "Are you very tired today?...", img: "snp_cake2.png", btn: "Yeah, quite tired" },
-                { text: "Heavy studying, endless tasks, sometimes you don't even know why you're so exhausted.", img: "snp_cake3.png", btn: "Totally true" },
-                { text: "Today was so tiring that you accidentally fell asleep...", img: "snp_cake4.png", btn: "z Z z" },
-                { text: "Waking up, you follow a sweet aroma until you stop in front of a door.", img: "snp_cake3.png", btn: "Where on earth am I?!" },
-                { text: "It's a cake shop, and the baker seems to be baking a cake just for you.", img: "snp_cake6.png", btn: "Enter the shop" },
-                { text: "First, the baker has a few questions for you. Don't stress, just answer in a way that is truly you.", img: "snp_cake.png", btn: "I'm ready" }
+                { text: "You must be really tired today, aren't you?...", img: "snp_cake8.png", btn: "Yeah, quite tired" },
+                { text: "Heavy studying, endless work, sometimes you don't even know why you're so exhausted.<br>Today was just so tiring that you accidentally fell asleep...", img: "snp_cake3.png", btn: "z Z z" },
+                { text: "Waking up again, you find yourself following a sweet aroma<br>until you stop right in front of a door. It's a cake shop!<br>It looks like the baker is baking a cake just for you.", img: "snp_cake7.png", btn: "Enter the shop" },
+                { text: "First, the baker has a few questions for you.<br>Don't worry over the answers, just be true to yourself.", img: "snp_cake4.png", btn: "I'm ready" }
             ]
         },
         q: {
@@ -74,12 +71,8 @@ const questions = [
     },
     {
         intro: {
-            th: [
-                { text: "เจ้าของร้านเดินมาหาคุณเขายิ้มอย่างอบอุ่นแล้วถามขึ้นมาด้วยความใส่ใจ... วันนี้เป็นยังไงบ้าง", btn: "จะตอบอะไรดี" }
-            ],
-            en: [
-                { text: "The baker walks up to you, smiles warmly, and asks with genuine care, 'How was your day?'", btn: "What should I say?" }
-            ]
+            th: [{ text: "เจ้าของร้านเดินมาหาคุณ เขายิ้มอย่างอบอุ่นแล้วถามขึ้นมาด้วยความใส่ใจ...<br>วันนี้เป็นยังไงบ้าง", btn: "จะตอบอะไรดี" }],
+            en: [{ text: "The baker walks up to you, smiles warmly,<br>and asks with genuine care, 'How was your day?'", btn: "What should I say?" }]
         },
         q: {
             th: "คุณตอบเขากลับไปว่า...",
@@ -87,30 +80,30 @@ const questions = [
         },
         a: {
             th: [
-                { text: "“โอเคนะ แค่เหนื่อยนิดหน่อย แต่จัดการได้”", type: "butter" },
-                { text: "“ไม่รู้เหมือนกัน บางทีแค่ต้องการอะไรสักอย่างที่ทำให้รู้สึกดีขึ้น”", type: "chiffon" },
-                { text: "“เหนื่อยแต่ยังโอเค บางทีอาจต้องลองเปลี่ยนบรรยากาศ”", type: "layer" },
-                { text: "“เหนื่อยมากเลย แต่พอได้มาที่นี่ก็รู้สึกดีขึ้นแล้ว”", type: "fruit" },
-                { text: "“ไม่รู้สิ ถ้าได้ลองทำอะไรใหม่ๆ ที่ต่างออกไปคงรู้สึกดีขึ้น”", type: "choco" }
+                { text: "\u201cโอเคนะ แค่เหนื่อยนิดหน่อย แต่จัดการได้\u201d", type: "butter" },
+                { text: "\u201cไม่รู้เหมือนกัน บางทีแค่ต้องการอะไรสักอย่างที่ทำให้รู้สึกดีขึ้น\u201d", type: "chiffon" },
+                { text: "\u201cเหนื่อยแต่ยังโอเค บางทีอาจต้องลองเปลี่ยนบรรยากาศ\u201d", type: "layer" },
+                { text: "\u201cเหนื่อยมากเลย แต่พอได้มาที่นี่ก็รู้สึกดีขึ้นแล้ว\u201d", type: "fruit" },
+                { text: "\u201cไม่รู้สิ ถ้าได้ลองทำอะไรใหม่ๆ ที่ต่างออกไปคงรู้สึกดีขึ้น\u201d", type: "choco" }
             ],
             en: [
-                { text: "“I'm fine, just a bit tired but I can handle it.”", type: "butter" },
-                { text: "“I don't know, maybe I just need something to make me feel better.”", type: "chiffon" },
-                { text: "“Tired but doing okay. Maybe I need a change of scenery.”", type: "layer" },
-                { text: "“So exhausted, but being here already makes me feel better.”", type: "fruit" },
-                { text: "“Not sure, doing something completely new might help.”", type: "choco" }
+                { text: "\u201cI'm fine, just a bit tired but I can handle it.\u201d", type: "butter" },
+                { text: "\u201cI don't know, maybe I just need something to make me feel better.\u201d", type: "chiffon" },
+                { text: "\u201cTired but doing okay. Maybe I need a change of scenery.\u201d", type: "layer" },
+                { text: "\u201cSo exhausted, but being here already makes me feel better.\u201d", type: "fruit" },
+                { text: "\u201cNot sure, doing something completely new might help.\u201d", type: "choco" }
             ]
         }
     },
     {
         intro: {
             th: [
-                { text: "พ่อครัวพาคุณเดินลึกเข้าไปผ่านประตูเล็กๆ บานหนึ่ง ข้างในมีขนมหลายอย่างวางเรียงรายอยู่", btn: "เดินตามเขาเข้าไป" },
-                { text: "เขาหันมาบอกกับคุณว่า “ปกติผมไม่ค่อยชวนใครเข้ามามุมนี้ของร้านนะ...”", btn: ". . ." }
+                { text: "พ่อครัวพาคุณเดินลึกเข้าไปผ่านประตูเล็กๆ บานหนึ่ง<br>ข้างในมีขนมหลายอย่างวางเรียงรายอยู่", btn: "เดินตามเขาเข้าไป" },
+                { text: "เขาหันมาบอกกับคุณว่า<br>\u201cปกติผมไม่ค่อยชวนใครเข้ามามุมนี้ของร้านนะ...\u201d", btn: ". . ." }
             ],
             en: [
-                { text: "The baker leads you deeper inside through a small door. Inside, various treats await.", btn: "Follow him in" },
-                { text: "He turns and tells you, “Usually, I rarely invite anyone into this corner of the shop...”", btn: ". . ." }
+                { text: "The baker leads you deeper inside through a small door.<br>Inside, various treats await.", btn: "Follow him in" },
+                { text: "He turns and tells you,<br>\u201cUsually, I rarely invite anyone into this corner of the shop...\u201d", btn: ". . ." }
             ]
         },
         q: {
@@ -137,12 +130,12 @@ const questions = [
     {
         intro: {
             th: [
-                { text: "เจ้าของร้านชี้ไปที่โต๊ะทำขนมตรงกลางห้องแล้วบอกว่า “คืนนี้คุณจะได้เค้กที่เป็นคุณที่สุด”", btn: ". . ." },
-                { text: "“คุณช่วยบอกผมหน่อย... มีโมเมนต์ไหนในวันธรรมดาๆ ที่คุณรู้สึกว่า นี่แหละคือตัวคุณ”", btn: "ครุ่นคิดสักพัก" }
+                { text: "เจ้าของร้านชี้ไปที่โต๊ะทำขนมตรงกลางห้องแล้วบอกว่า<br>\u201cคืนนี้คุณจะได้เค้กที่เป็นคุณที่สุด\u201d", btn: ". . ." },
+                { text: "\u201cคุณช่วยบอกผมหน่อย...<br>มีโมเมนต์ไหนในวันธรรมดาๆ ที่คุณรู้สึกว่า นี่แหละคือตัวคุณ\u201d", btn: "ครุ่นคิดสักพัก" }
             ],
             en: [
-                { text: "The baker walks to the prep table in the center and says, “Tonight, I will bake the cake that defines you best.”", btn: ". . ." },
-                { text: "“Tell me... is there a moment on an ordinary day where you feel truly yourself?”", btn: "Reflect for a moment" }
+                { text: "The baker walks to the prep table in the center and says,<br>\u201cTonight, I will bake the cake that defines you best.\u201d", btn: ". . ." },
+                { text: "\u201cTell me...<br>is there a moment on an ordinary day<br>where you feel truly yourself?\u201d", btn: "Reflect for a moment" }
             ]
         },
         q: {
@@ -170,11 +163,11 @@ const questions = [
         intro: {
             th: [
                 { text: "พ่อครัวยิ้มและเริ่มลงมืออบเค้กให้คุณอย่างพิถีพิถัน...", btn: "นั่งรออย่างใจเย็น" },
-                { text: "ในขณะที่รอ คุณเหม่อมองออกไปนอกหน้าต่าง เห็นท้องฟ้าตอนเย็นที่กำลังเปลี่ยนสีแสนละมุน", btn: "เหม่อมองฟ้า" }
+                { text: "ในขณะที่รอ คุณเหม่อมองออกไปนอกหน้าต่าง<br>เห็นท้องฟ้าตอนเย็นที่กำลังเปลี่ยนสีแสนละมุน", btn: "เหม่อมองฟ้า" }
             ],
             en: [
                 { text: "The baker smiles and carefully begins to bake your cake...", btn: "Wait patiently" },
-                { text: "While waiting, you look out the window, watching the soft evening sky changing colors.", btn: "Gaze at the sky" }
+                { text: "While waiting, you look out the window,<br>watching the soft evening sky changing colors.", btn: "Gaze at the sky" }
             ]
         },
         q: {
@@ -185,7 +178,7 @@ const questions = [
             th: [
                 { text: "นึกถึงสิ่งที่ยังต้องทำ และรู้สึกว่าพอได้พักก็มีแรงจะกลับไปสู้ต่อ", type: "butter" },
                 { text: "อยากเก็บความรู้สึกในช่วงเวลาที่มีความหมายนี้เอาไว้", type: "chiffon" },
-                { text: "ถ้าได้มาที่นี้ในบรรยากาศอื่นๆ มาพบผู้คนใหม่ๆความรู้สึกจะเป็นยังไงนะ", type: "layer" },
+                { text: "ถ้าได้มาที่นี้ในบรรยากาศอื่นๆ มาพบผู้คนใหม่ๆ ความรู้สึกจะเป็นยังไงนะ", type: "layer" },
                 { text: "นึกถึงคนที่เรารักและอยากพาเขามาใช้เวลาดีๆที่นี่ร่วมกัน", type: "fruit" },
                 { text: "ไม่ได้คิดอะไรมาก แค่อยากซึบซับความรู้สึกดีๆ ตอนนี้ให้เต็มที่", type: "choco" }
             ],
@@ -200,471 +193,406 @@ const questions = [
     }
 ];
 
-// =========================================================================
-// 3. คลังข้อมูลรูปภาพ Artwork ทั้งหมด 5 รสชาติ (10 ไฟล์รูปภาพ)
-// 🌟 อัปเดตผูก Path ตามรูปโครงสร้างโฟลเดอร์ล่าสุดของน้าเรียบร้อยครับ!
-// =========================================================================
 const results = {
-    butter: { 
-        th: { img: "butter_th.png" }, 
-        en: { img: "butter_en.png" }
-    },
-    chiffon: { 
-        th: { img: "chiffon_th.png" }, 
-        en: { img: "chiffon_en.png" }
-    },
-    layer: { 
-        th: { img: "layer_th.png" }, 
-        en: { img: "layer_en.png" }
-    },
-    fruit: { 
-        th: { img: "fruit_th.png" }, 
-        en: { img: "fruit_en.png" }
-    },
-    choco: { 
-        th: { img: "choco_th.png" }, 
-        en: { img: "choco_en.png" }
-    }
+    butter: { th: { img: "butter_th.png" }, en: { img: "butter_en.png" } },
+    chiffon:{ th: { img: "chiffon_th.png"}, en: { img: "chiffon_en.png"} },
+    layer:  { th: { img: "layer_th.png"  }, en: { img: "layer_en.png"  } },
+    fruit:  { th: { img: "fruit_th.png"  }, en: { img: "fruit_en.png"  } },
+    choco:  { th: { img: "choco_th.png"  }, en: { img: "choco_en.png"  } }
 };
 
-// ตัวแปรควบคุมระบบเกม
-let currentLang = 'th';
+let currentLang          = 'th';
 let currentQuestionIndex = 0;
-let currentIntroIndex = 0; 
-let scores = { butter: 0, layer: 0, chiffon: 0, fruit: 0, choco: 0 };
-let typewriterInterval; 
-let currentWinningType = 'butter';
+let currentIntroIndex    = 0;
+let scores               = { butter: 0, layer: 0, chiffon: 0, fruit: 0, choco: 0 };
+let currentWinningType   = 'butter';
+let typewriterInterval   = null;
 
-// ตัวแปรสำหรับระบบเคาะกล่องเค้ก
-let boxTapCount = 0;
-const targetTaps = 10; 
+let boxTapCount  = 0;
+let boxTapLocked = false;
+const TARGET_TAPS = 10;
 
-// =========================================================================
-// 4. ฟังก์ชันระบบเปลี่ยนภาษา (Language Switching Engine)
-// =========================================================================
+function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const el = document.getElementById(id);
+    if (el) el.classList.add('active');
+}
+
+let _typewriteOnDone = null;   
+let _typewriteFullHtml = '';   
+
+function typewrite(container, html, speed = 15, onDone = null) {
+    clearInterval(typewriterInterval);
+    container.innerHTML = '';
+    _typewriteOnDone  = onDone;
+    _typewriteFullHtml = html;
+
+    const tokens = [];
+    const regex = /(<[^>]+>)|([^<])/g;
+    let match;
+    while ((match = regex.exec(html)) !== null) {
+        tokens.push(match[0]);
+    }
+
+    let i = 0;
+    let accumulated = '';
+    typewriterInterval = setInterval(() => {
+        if (i < tokens.length) {
+            accumulated += tokens[i++];
+            container.innerHTML = accumulated;
+        } else {
+            clearInterval(typewriterInterval);
+            _typewriteOnDone = null;
+            if (onDone) onDone();
+        }
+    }, speed);
+}
+
+
+function skipTypewriter(container) {
+    if (!typewriterInterval) return;   
+    clearInterval(typewriterInterval);
+    typewriterInterval = null;
+    container.innerHTML = _typewriteFullHtml;
+    const cb = _typewriteOnDone;
+    _typewriteOnDone   = null;
+    _typewriteFullHtml = '';
+    if (cb) cb();
+}
+
+function setProgress(pct) {
+    const el = document.getElementById('progress');
+    if (el) el.style.width = `${pct}%`;
+}
+
 function changeLanguage(lang) {
     currentLang = lang;
-    
-    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
     document.getElementById(`btn-lang-${lang}`).classList.add('active');
-    
-    document.getElementById('start-title').innerHTML = translations[lang].startTitle;
-    document.getElementById('start-desc').innerText = translations[lang].startDesc;
-    document.getElementById('start-quiz-btn').innerText = translations[lang].startBtn;
-    
-    document.getElementById('tap-hint-msg').innerText = translations[lang].tapHint;
-    document.getElementById('result-lead-text').innerText = translations[lang].resultLead;
-    document.getElementById('download-btn-text').innerText = translations[lang].downloadBtn;
-    document.getElementById('share-ig-btn-text').innerText = translations[lang].shareIGBtn;
-    document.getElementById('retry-btn-text').innerText = translations[lang].retryBtn;
-    
-    if (document.getElementById('footer-competition-text')) {
-        document.getElementById('footer-competition-text').innerText = translations[lang].footerText;
+
+    const t = translations[lang];
+
+    document.getElementById('start-title').innerHTML   = t.startTitle;
+    document.getElementById('start-desc').innerHTML    = t.startDesc;
+    document.getElementById('start-quiz-btn').innerText= t.startBtn;
+
+    document.getElementById('tap-hint-msg').innerText      = t.tapHint;
+    document.getElementById('result-lead-text').innerText  = t.resultLead;
+    document.getElementById('download-btn-text').innerText = t.downloadBtn;
+    document.getElementById('share-ig-btn-text').innerText = t.shareIGBtn;
+    document.getElementById('retry-btn-text').innerText    = t.retryBtn;
+
+    const footerEl = document.getElementById('footer-competition-text');
+    if (footerEl) footerEl.innerText = t.footerText;
+
+    const loadingScreen = document.getElementById('loading-screen');
+    if (loadingScreen && loadingScreen.classList.contains('active')) {
+        const statusText = document.getElementById('loading-status-text');
+        if (statusText) statusText.innerText = t.loadingMsgs[0];
     }
-    
+
     if (document.getElementById('result-screen').classList.contains('active')) {
-        const cakeImageElement = document.getElementById('result-cake-image');
-        if (cakeImageElement) {
-            cakeImageElement.src = results[currentWinningType][currentLang].img;
-        }
+        const img = document.getElementById('result-cake-image');
+        if (img) img.src = results[currentWinningType][lang].img;
     }
-    
+
     if (document.getElementById('intermission-screen').classList.contains('active')) {
         showIntermission();
     }
     if (document.getElementById('box-tap-screen').classList.contains('active')) {
-        showBoxIntroScreen();
-    }
-}
-
-function showBoxIntroScreen() {
-    document.getElementById('start-screen').classList.remove('active');
-    document.getElementById('quiz-screen').classList.remove('active');
-    document.getElementById('intermission-screen').classList.remove('active');
-    document.getElementById('result-screen').classList.remove('active');
-    
-    const boxScreen = document.getElementById('box-tap-screen');
-    if (boxScreen) boxScreen.classList.add('active');
-    
-    boxTapCount = 0;
-    if(document.getElementById('tap-progress-fill')) document.getElementById('tap-progress-fill').style.width = "0%";
-    if(document.getElementById('tap-count-text')) document.getElementById('tap-count-text').innerText = boxTapCount;
-    
-    const boxIntroText = translations[currentLang].boxIntro;
-    const textContainer = document.getElementById('box-story-text');
-    if(!textContainer) return;
-    
-    textContainer.innerHTML = '<span class="cursor"></span>'; 
-    let index = 0;
-    clearInterval(typewriterInterval); 
-
-    typewriterInterval = setInterval(() => {
-        if (index < boxIntroText.length) {
-            textContainer.innerHTML = boxIntroText.substring(0, index + 1) + '<span class="cursor"></span>';
-            index++;
-        } else {
-            clearInterval(typewriterInterval);
-        }
-    }, 40); 
-}
-
-function tapCakeBox() {
-    if (boxTapCount < targetTaps) {
-        boxTapCount++;
-        if(document.getElementById('tap-count-text')) document.getElementById('tap-count-text').innerText = boxTapCount;
-        const progressPercentage = (boxTapCount / targetTaps) * 100;
-        if(document.getElementById('tap-progress-fill')) document.getElementById('tap-progress-fill').style.width = `${progressPercentage}%`;
-        
-        const boxImg = document.getElementById('cake-box-img');
-        if (boxImg) {
-            boxImg.classList.add('shake-animation');
-            setTimeout(() => boxImg.classList.remove('shake-animation'), 200);
-        }
-        
-        if (boxTapCount >= targetTaps) {
-            setTimeout(() => {
-                document.getElementById('box-tap-screen').classList.remove('active');
-                showResult(); 
-            }, 300);
-        }
+        showBoxTapScreen();
     }
 }
 
 function startQuiz() {
-    document.getElementById('start-screen').classList.remove('active');
-    document.getElementById('lang-switcher').style.display = 'none'; 
-    currentIntroIndex = 0; 
+    document.getElementById('lang-switcher').style.display = 'none';
+    currentIntroIndex    = 0;
     currentQuestionIndex = 0;
-    showIntermission(); 
+    showIntermission();
 }
 
 function showIntermission() {
-    const progress = (currentQuestionIndex / questions.length) * 100;
-    document.getElementById('progress').style.width = `${progress}%`;
+    setProgress((currentQuestionIndex / questions.length) * 100);
 
     if (currentQuestionIndex >= questions.length) {
-        showBoxIntroScreen();
+        showBoxTapScreen();
         return;
     }
 
-    document.getElementById('quiz-screen').classList.remove('active');
-    document.getElementById('intermission-screen').classList.add('active');
-    
+    showScreen('intermission-screen');
+
     const nextBtn = document.getElementById('next-to-quiz-btn');
-    nextBtn.style.display = "none"; 
+    if (nextBtn) nextBtn.style.display = 'none';
 
-    const currentQ = questions[currentQuestionIndex];
-    const localizedIntro = currentQ.intro[currentLang];
-    
-    let fullText = "";
-    let currentImg = ""; 
-    let buttonText = currentLang === 'th' ? "เดินต่อ" : "Continue";  
+    const scene   = questions[currentQuestionIndex].intro[currentLang];
+    const data    = Array.isArray(scene) ? scene[currentIntroIndex] : scene;
+    const text    = (typeof data === 'object') ? data.text : data;
+    const imgSrc  = (typeof data === 'object' && data.img) ? data.img : '';
+    const btnText = (typeof data === 'object' && data.btn)
+        ? data.btn
+        : (currentLang === 'th' ? 'เดินต่อ' : 'Continue');
 
-    if (Array.isArray(localizedIntro)) {
-        const sceneData = localizedIntro[currentIntroIndex];
-        if (typeof sceneData === 'object') {
-            fullText = sceneData.text;
-            currentImg = sceneData.img || ""; 
-            buttonText = sceneData.btn || buttonText;
+    const imgEl = document.getElementById('intermission-img');
+    if (imgEl) {
+        if (imgSrc) {
+            imgEl.src     = imgSrc;
+            imgEl.style.display = 'block';
         } else {
-            fullText = sceneData;
-        }
-    }
-    
-    const intermissionImgElement = document.getElementById('intermission-img');
-    if (intermissionImgElement) {
-        if (currentImg && currentImg.trim() !== "") {
-            intermissionImgElement.src = currentImg;
-            intermissionImgElement.style.display = "block"; 
-        } else {
-            intermissionImgElement.style.display = "none";  
+            imgEl.style.display = 'none';
         }
     }
 
-    nextBtn.innerText = buttonText;
-    const textContainer = document.getElementById('typewriter-text');
-    if(textContainer) {
-        textContainer.innerHTML = '<span class="cursor"></span>'; 
-        let index = 0;
-        clearInterval(typewriterInterval); 
+    if (nextBtn) nextBtn.innerText = btnText;
 
-        typewriterInterval = setInterval(() => {
-            if (index < fullText.length) {
-                textContainer.innerHTML = fullText.substring(0, index + 1) + '<span class="cursor"></span>';
-                index++;
-            } else {
-                clearInterval(typewriterInterval);
-                nextBtn.style.display = "inline-block";
-            }
-        }, 40); 
+    const textEl = document.getElementById('typewriter-text');
+    if (textEl) {
+        // กดที่หน้า intermission (ไม่ใช่ปุ่ม) → skip typewriter
+        const screen = document.getElementById('intermission-screen');
+        screen.onclick = (e) => {
+            if (e.target.closest('button')) return;
+            if (typewriterInterval) skipTypewriter(textEl);
+        };
+
+        typewrite(textEl, text, 40, () => {
+            if (nextBtn) nextBtn.style.display = 'inline-block';
+        });
+
+        // cursor บอก hint ว่ากดได้ระหว่างพิมพ์
+        textEl.style.cursor = 'pointer';
     }
 }
 
 function goToActualQuiz() {
-    const currentQ = questions[currentQuestionIndex];
-    const localizedIntro = currentQ.intro[currentLang];
-    
-    if (Array.isArray(localizedIntro) && currentIntroIndex < localizedIntro.length - 1) {
-        currentIntroIndex++; 
-        showIntermission();  
-    } else {
-        currentIntroIndex = 0; 
-        
-        document.getElementById('intermission-screen').classList.remove('active');
-        document.getElementById('quiz-screen').classList.add('active');
+    const scene = questions[currentQuestionIndex].intro[currentLang];
 
-        document.getElementById('question-text').innerText = currentQ.q[currentLang];
-        
-        const optionsContainer = document.getElementById('options-container');
-        optionsContainer.innerHTML = '';
-        
-        currentQ.a[currentLang].forEach(answer => {
-            const button = document.createElement('button');
-            button.innerText = answer.text;
-            button.classList.add('option-btn');
-            button.onclick = () => selectAnswer(answer.type);
-            optionsContainer.appendChild(button);
+    if (Array.isArray(scene) && currentIntroIndex < scene.length - 1) {
+        currentIntroIndex++;
+        showIntermission();
+        return;
+    }
+
+    currentIntroIndex = 0;
+    showScreen('quiz-screen');
+
+    const q = questions[currentQuestionIndex];
+    document.getElementById('question-text').innerText = q.q[currentLang];
+
+    const container = document.getElementById('options-container');
+    if (container) {
+        container.innerHTML = '';
+        q.a[currentLang].forEach(ans => {
+            const btn = document.createElement('button');
+            btn.innerText = ans.text;
+            btn.className = 'option-btn';
+            btn.onclick   = () => selectAnswer(ans.type);
+            container.appendChild(btn);
         });
     }
 }
 
 function selectAnswer(type) {
-    scores[type]++;
-    currentQuestionIndex++;
-    document.getElementById('quiz-screen').classList.remove('active');
-    
-    if (currentQuestionIndex >= questions.length) {
-        showBoxIntroScreen();
-    } else {
-        showIntermission();
+    event.currentTarget && event.currentTarget.classList.add('selected');
+
+    setTimeout(() => {
+        scores[type]++;
+        currentQuestionIndex++;
+
+        if (currentQuestionIndex >= questions.length) {
+            showBoxTapScreen();
+        } else {
+            currentIntroIndex = 0;
+            showIntermission();
+        }
+    }, 180);
+}
+
+function showBoxTapScreen() {
+    showScreen('box-tap-screen');
+
+    boxTapCount  = 0;
+    boxTapLocked = false;
+
+    const fill    = document.getElementById('tap-progress-fill');
+    const countEl = document.getElementById('tap-count-text');
+    if (fill)    fill.style.width = '0%';
+    if (countEl) countEl.innerText = '0';
+
+    const textEl = document.getElementById('box-story-text');
+    if (textEl) {
+        // กดที่ข้อความ (ไม่ใช่กล่องเค้ก) → skip typewriter
+        textEl.style.cursor = 'pointer';
+        textEl.onclick = () => {
+            if (typewriterInterval) skipTypewriter(textEl);
+        };
+        typewrite(textEl, translations[currentLang].boxIntro, 40);
     }
 }
 
-// =========================================================================
-// 5. ฟังก์ชันแสดงผลหน้า Result ฉบับดึงรูปภาพแยกรายภาษา
-// =========================================================================
+function tapCakeBox() {
+    if (boxTapLocked || boxTapCount >= TARGET_TAPS) return;
+
+    boxTapCount++;
+
+    const fill    = document.getElementById('tap-progress-fill');
+    const countEl = document.getElementById('tap-count-text');
+    if (fill)    fill.style.width = `${(boxTapCount / TARGET_TAPS) * 100}%`;
+    if (countEl) countEl.innerText = boxTapCount;
+
+    const boxImg = document.getElementById('cake-box-img');
+    if (boxImg) {
+        boxImg.classList.add('shake-animation');
+        setTimeout(() => boxImg.classList.remove('shake-animation'), 200);
+    }
+
+    if (boxTapCount >= TARGET_TAPS) {
+        boxTapLocked = true;
+        setTimeout(startLoadingScreen, 300);
+    }
+}
+
+function startLoadingScreen() {
+    const loadingScreen = document.getElementById('loading-screen');
+    if (!loadingScreen) { showResult(); return; }
+
+    showScreen('loading-screen');
+
+    const barFill    = document.getElementById('loading-bar-fill');
+    const statusText = document.getElementById('loading-status-text');
+    const messages   = translations[currentLang].loadingMsgs;
+
+    let progress = 0;
+    if (barFill)    barFill.style.width = '0%';
+    if (statusText) statusText.innerText = messages[0];
+
+    const iv = setInterval(() => {
+        progress++;
+        if (barFill) barFill.style.width = `${progress}%`;
+
+        if (progress === 35 && statusText) {
+            statusText.style.opacity = '0';
+            setTimeout(() => { statusText.innerText = messages[1]; statusText.style.opacity = '1'; }, 300);
+        }
+        if (progress === 70 && statusText) {
+            statusText.style.opacity = '0';
+            setTimeout(() => { statusText.innerText = messages[2]; statusText.style.opacity = '1'; }, 300);
+        }
+        if (progress >= 100) {
+            clearInterval(iv);
+            setTimeout(() => showResult(), 400);
+        }
+    }, 30);
+}
+
 function showResult() {
-    document.getElementById('quiz-screen').classList.remove('active');
-    document.getElementById('intermission-screen').classList.remove('active'); 
-    if(document.getElementById('box-tap-screen')) document.getElementById('box-tap-screen').classList.remove('active');
-    
-    document.getElementById('result-screen').classList.add('active');
-    document.getElementById('progress').style.width = `100%`;
+    showScreen('result-screen');
+    setProgress(100);
 
-    let maxType = 'butter';
-    let maxScore = -1;
-    for (const [type, score] of Object.entries(scores)) {
-        if (score > maxScore) {
-            maxScore = score;
-            maxType = type;
-        }
-    }
+    currentWinningType = Object.entries(scores).reduce(
+        (best, [type, score]) => (score > best[1] ? [type, score] : best),
+        ['butter', -1]
+    )[0];
 
-    currentWinningType = maxType;
-
-    const finalResultImage = results[maxType][currentLang].img;
-    const cakeImageElement = document.getElementById('result-cake-image');
-    if (cakeImageElement) {
-        cakeImageElement.src = finalResultImage;
+    const img = document.getElementById('result-cake-image');
+    if (img) {
+        img.classList.remove('revealed');
+        img.src = results[currentWinningType][currentLang].img;
+        img.onload = () => requestAnimationFrame(() => img.classList.add('revealed'));
+        if (img.complete) requestAnimationFrame(() => img.classList.add('revealed'));
     }
 }
 
-/* =========================================================================
-   FUNCTIONS FOR RESULT SCREEN (ระบบปุ่มหน้าผลลัพธ์แบบผสมผสาน)
-   ========================================================================= */
-
-/**
- * 1. ฟังก์ชันสำหรับปุ่ม "ดาวน์โหลดรูป" (ปุ่มหลัก)
- * ทำงานโดยเรียกหน้าต่าง Share Sheet ของระบบ iOS/Android ขึ้นมาเพื่อให้กด Save Image ลงคลังภาพได้ทันที
- */
 async function downloadTicket() {
-    try {
-        // ดึง URL ของภาพตั๋วผลลัพธ์ที่เจนขึ้นมา (รองรับทั้ง Base64 จาก html2canvas หรือ URL ไฟล์ภาพ)
-        const imageUrl = document.getElementById("result-cake-image").src;
-        
-        if (!imageUrl || imageUrl === window.location.href) {
-            alert("ไม่พบรูปภาพผลลัพธ์ กรุณารอสักครู่ให้ระบบสร้างรูปสักครู่นะครับน้า");
-            return;
-        }
-
-        // เช็กว่าเบราว์เซอร์และระบบปฏิบัติการรองรับ Web Share API และระบบส่งไฟล์ไหม (iOS Safari รองรับตัวนี้)
-        if (navigator.share && navigator.canShare) {
-            // แปลงข้อมูลรูปภาพ (Data URL / Base64) ให้กลายเป็น Blob
-            const response = await fetch(imageUrl);
-            const blob = await response.blob();
-            
-            // สร้างโครงสร้างไฟล์ที่ระบบปฏิบัติการบนมือถือเข้าใจ
-            const file = new File([blob], "My_SP_Cake.png", { type: blob.type });
-
-            // ตรวจสอบขั้นสุดท้ายว่าไฟล์พร้อมส่งเข้า Share Sheet หรือไม่
-            if (navigator.canShare({ files: [file] })) {
-                await navigator.share({
-                    files: [file],
-                    title: 'เค้กที่อบเพื่อคุณในคืนนี้',
-                    text: 'มาดูผลลัพธ์เค้กของฉันจาก S&P สิ! #CrackTheCake',
-                });
-                return; // ถ้า Share Sheet เด้งขึ้นมาสำเร็จให้จบการทำงานตรงนี้เลยครับ
-            }
-        }
-        
-        // 🌟 Fallback SYSTEM: ถ้าเปิดในคอมพิวเตอร์ หรือเบราว์เซอร์เก่าที่ไม่รองรับ Web Share 
-        // ระบบจะสลับไปใช้วิธีระเบิดรูปในแท็บใหม่เพื่อให้ผู้ใช้กดบันทึกเองโดยอัตโนมัติทันทีครับ
-        openImageInNewTab(imageUrl);
-
-    } catch (error) {
-        console.error("การดาวน์โหลดหรือแชร์ผ่าน API ล้มเหลว:", error);
-        // หากเกิดปัญหาใดๆ ระหว่างแปลงไฟล์ ให้สลับไปใช้วิธีสำรองทันทีเพื่อไม่ให้ระบบค้าง
-        const imageUrl = document.getElementById("result-cake-image").src;
-        openImageInNewTab(imageUrl);
-    }
-}
-
-/**
- * 2. ฟังก์ชันสำหรับปุ่ม "แชร์ลง IG Story" (เวอร์ชันอัปเกรดกิมมิค)
- * เรียก Web Share API ขึ้นมาก่อนเพื่อให้เซฟรูป/แชร์ด่วน -> พอยกเลิกหรือแชร์เสร็จ จะเด้งเปิดแอป IG ทันที!
- */
-async function shareToInstagramStory() {
-    const imageUrl = document.getElementById("result-cake-image").src;
-    
-    if (!imageUrl || imageUrl === window.location.href) {
-        alert("ไม่พบรูปภาพผลลัพธ์ กรุณารอสักครู่ครับ");
+    const img = document.getElementById('result-cake-image');
+    if (!img || !img.src || img.src === window.location.href) {
+        alert(translations[currentLang].noImgAlert);
         return;
     }
 
-    // ลิงก์สำหรับสั่ง Deep Link บังคับเปิดหน้าสร้าง Story บนแอป Instagram แท้ๆ
-    const instagramStoryUrl = "instagram://story-camera";
-    const instagramWebUrl = "https://www.instagram.com/";
+    try {
+        const res  = await fetch(img.src);
+        const blob = await res.blob();
+        const file = new File([blob], 'BakeYourSoul.png', { type: blob.type });
 
-    // ฟังก์ชันย่อยสำหรับพาวาร์ปไปแอป IG
-    const redirectToInstagram = () => {
-        // พยายามเปิดแอป Instagram ในเครื่องก่อน
-        window.location.href = instagramStoryUrl;
-        
-        // ถ้าภายใน 1.5 วินาทีระบบไม่เด้ง (เพราะไม่มีแอปในเครื่อง) จะสลับไปเปิดหน้าเว็บ IG ในแท็บใหม่ให้แทน
-        setTimeout(() => {
-            if (document.hasFocus()) {
-                window.open(instagramWebUrl, '_blank');
-            }
-        }, 1500);
-    };
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            await navigator.share({
+                files: [file],
+                title: translations[currentLang].resultLead,
+                text:  '#CrackTheCake',
+            });
+            return;
+        }
+    } catch (err) {
+        console.warn('Web Share API failed, falling back:', err);
+    }
+
+    openImageInNewTab(img.src);
+}
+
+async function shareToInstagramStory() {
+    const img = document.getElementById('result-cake-image');
+    if (!img || !img.src || img.src === window.location.href) {
+        alert(translations[currentLang].noImgAlert);
+        return;
+    }
 
     try {
-        // 1. ลองใช้ทริก Web Share API เหมือนปุ่มดาวน์โหลดหลักก่อน เพื่อให้ผู้ใช้กด Save Image หรือแชร์ได้สะดวก
-        if (navigator.share && navigator.canShare) {
-            const response = await fetch(imageUrl);
-            const blob = await response.blob();
-            const file = new File([blob], "My_SP_Cake.png", { type: blob.type });
+        const res  = await fetch(img.src);
+        const blob = await res.blob();
+        const file = new File([blob], 'BakeYourSoul.png', { type: blob.type });
 
-            if (navigator.canShare({ files: [file] })) {
-                // เรียกหน้าต่างแชร์ขึ้นมา
-                await navigator.share({
-                    files: [file],
-                    title: 'เค้กที่อบเพื่อคุณในคืนนี้',
-                    text: 'แชร์เค้กของฉันจาก S&P! #CrackTheCake',
-                });
-                
-                // 🌟 ทีเด็ดอยู่ตรงนี้: พอผู้ใช้กดแชร์สำเร็จ หรือกดปิดหน้าต่างแชร์ลง ระบบจะทำงานบรรทัดต่อไปทันที
-                redirectToInstagram();
-                return;
-            }
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            await navigator.share({ files: [file], title: '#CrackTheCake' });
+        } else {
+            openImageInNewTab(img.src, translations[currentLang].saveHint);
         }
-        
-        // 2. Fallback: ถ้าเบราว์เซอร์ไม่รองรับ API ตัวนี้ ให้เด้งเปิดรูปแท็บใหม่เพื่อให้กดค้างเซฟ แล้วพาวาร์ปไป IG
-        openImageInNewTab(imageUrl, "ระบบกำลังจะพาไปยัง Instagram อย่าลืมกดบันทึกภาพก่อนนะครับ");
-        setTimeout(redirectToInstagram, 2500); // หน่วงเวลานิดนึงให้เขาเซฟรูปทัน
-
-    } catch (error) {
-        console.error("IG Share Flow Error:", error);
-        // เกิดข้อผิดพลาด/ผู้ใช้กด Cancel กลางคัน ก็ยังพาวาร์ปไป IG ให้ตามสัญชาตญาณครับ
-        redirectToInstagram();
+    } catch (err) {
+        console.warn('IG share fallback:', err);
+        openImageInNewTab(img.src, translations[currentLang].saveHint);
     }
+
+    setTimeout(() => {
+        window.location.href = 'instagram://story-camera';
+        setTimeout(() => {
+            if (document.hasFocus()) window.open('https://www.instagram.com/', '_blank');
+        }, 1500);
+    }, 500);
 }
 
-/**
- * 3. ฟังก์ชันกลาง (Helper) สำหรับสร้างหน้ารูปภาพแยกในแท็บใหม่
- * ช่วยจัดกึ่งกลางรูปภาพให้สวยงามสไตล์แอปพลิเคชัน และรองรับการสัมผัสกดค้าง (Touch & Hold) ของ iOS/Android
- */
-function openImageInNewTab(url, customHint = "แตะที่ภาพค้างไว้ แล้วเลือก 'บันทึกภาพ' เพื่อเซฟลงแกลเลอรี่ของคุณ") {
-    const newWindow = window.open();
-    if (newWindow) {
-        newWindow.document.write(`
-            <!DOCTYPE html>
-            <html lang="th">
-            <head>
-                <meta charset="UTF-8">
-                <title>Save Your Cake - S&P</title>
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <link rel="preconnect" href="https://fonts.googleapis.com">
-                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-                <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
-                <style>
-                    body { 
-                        margin: 0; 
-                        background: #121212; 
-                        display: flex; 
-                        flex-direction: column; 
-                        justify-content: center; 
-                        align-items: center; 
-                        min-height: 100vh; 
-                        font-family: 'Prompt', sans-serif; 
-                        color: #ffffff; 
-                        padding: 20px;
-                        box-sizing: border-box;
-                        -webkit-user-select: none; /* ป้องกันการคลุมดำข้อความโดยไม่ตั้งใจ */
-                    }
-                    img { 
-                        max-width: 100%; 
-                        max-height: 75vh; 
-                        object-fit: contain; 
-                        border-radius: 14px;
-                        box-shadow: 0 12px 36px rgba(0,0,0,0.6);
-                        /* อนุญาตให้สัมผัสและกดค้างเฉพาะที่ตัวรูปภาพเพื่อเรียกเมนูระบบของ iOS/Android */
-                        -webkit-touch-callout: default !important; 
-                        pointer-events: auto !important;
-                    }
-                    .hint-box { 
-                        margin-top: 22px; 
-                        background: rgba(255, 255, 255, 0.14); 
-                        backdrop-filter: blur(15px);
-                        -webkit-backdrop-filter: blur(15px);
-                        padding: 14px 24px; 
-                        border-radius: 30px; 
-                        font-size: 14px; 
-                        line-height: 1.5;
-                        text-align: center; 
-                        max-width: 90%;
-                        border: 1px solid rgba(255,255,255,0.12);
-                        box-shadow: 0 4px 15px rgba(0,0,0,0.25);
-                        letter-spacing: 0.2px;
-                    }
-                </style>
-            </head>
-            <body>
-                <img src="${url}" alt="S&P Result Cake">
-                <div class="hint-box">${customHint}</div>
-            </body>
-            </html>
-        `);
-        newWindow.document.close();
-    } else {
-    }
+function openImageInNewTab(url, hint) {
+    const saveHint = hint || translations[currentLang].saveHint;
+    const w = window.open();
+    if (!w) return;
+    w.document.write(`<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>BakeYourSoul</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#121212;display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:100vh;font-family:'Prompt',sans-serif;color:#fff;padding:20px;box-sizing:border-box}
+  img{max-width:100%;max-height:75vh;object-fit:contain;border-radius:14px;box-shadow:0 12px 36px rgba(0,0,0,.6)}
+  .hint{margin-top:22px;background:rgba(255,255,255,.14);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);padding:14px 24px;border-radius:30px;font-size:14px;line-height:1.5;text-align:center;max-width:90%;border:1px solid rgba(255,255,255,.12)}
+</style>
+</head>
+<body>
+<img src="${url}" alt="S&P Result Cake">
+<div class="hint">${saveHint}</div>
+</body></html>`);
+    w.document.close();
 }
 
-/**
- * 4. ฟังก์ชันสำหรับปุ่ม "กลับไปเล่นอีกรอบ" (ระบบเดิมของน้า)
- * เคลียร์ค่าและย้อนกลับหน้าแรกสุด
- */
 function resetQuiz() {
-    // โค้ดเดิมของน้าสำหรับการล้างสถานะควิซ (ยกตัวอย่างเช่นย้ายหน้าจอกลับไปที่หน้าแรก)
-    // currentQuestion = 0;
-    // userAnswers = [];
-    
-    // เปลี่ยนหน้าจอกลับไปแสดงหน้าแรก
-    const screens = document.querySelectorAll('.screen');
-    screens.forEach(screen => screen.classList.remove('active'));
-    
-    const startScreen = document.getElementById('start-screen');
-    if (startScreen) {
-        startScreen.classList.add('active');
-    }
+    currentQuestionIndex = 0;
+    currentIntroIndex    = 0;
+    boxTapCount          = 0;
+    boxTapLocked         = false;
+    scores               = { butter: 0, layer: 0, chiffon: 0, fruit: 0, choco: 0 };
+    clearInterval(typewriterInterval);
+
+    const switcher = document.getElementById('lang-switcher');
+    if (switcher) switcher.style.display = 'flex';
+
+    showScreen('start-screen');
 }

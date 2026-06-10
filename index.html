@@ -3,40 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S&P_BakeYourSoul</title>
+    <title>BakeYourSoul</title>
+
+    <meta name="theme-color" content="#da291c">
 
     <link rel="apple-touch-icon" sizes="180x180" href="snp_logo/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="snp_logo/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="snp_logo/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
-    
+
+    <meta property="og:title"       content="BakeYourSoul – เค้กที่อบเพื่อคุณ">
+    <meta property="og:description" content="ค้นหาเค้กที่เป็นตัวคุณที่สุด">
+    <meta property="og:image"       content="snp_cake.png">
+    <meta property="og:type"        content="website">
+    <meta name="twitter:card"       content="summary_large_image">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <link rel="preload" as="image" href="snp_cake.png">
+    <link rel="preload" as="image" href="snp_cake2.png">
+    <link rel="preload" as="image" href="snp_cake5.png">
+
     <link rel="stylesheet" href="style.css">
     <script src="src.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
 
 <div class="phone-container">
+
     <div class="progress-container">
         <div class="progress-fill" id="progress"></div>
     </div>
 
     <div class="lang-switch-container" id="lang-switcher">
         <button onclick="changeLanguage('th')" class="lang-btn active" id="btn-lang-th">TH</button>
-        <button onclick="changeLanguage('en')" class="lang-btn" id="btn-lang-en">EN</button>
+        <button onclick="changeLanguage('en')" class="lang-btn"        id="btn-lang-en">EN</button>
     </div>
 
     <div class="screen active" id="start-screen">
-        <img src="snp_cake.png" alt="Midnight Bakery" class="image">
+        <img src="snp_cake.png" alt="S&P Cake" class="image">
         <h1 class="story-title" id="start-title">เหนื่อยไหมวันนี้<br>ให้ S&P เราดูแล</h1>
-        <p class="story-p" id="start-desc">ไม่จำเป็นต้องรอโอกาสพิเศษ แค่ในวันธรรมดาที่เหนื่อยล้า<br>คุณก็คู่ควรกับเค้กดีๆสักชิ้นเพื่อฮีลใจตัวเอง</p>
+        <p  class="story-p"    id="start-desc">ไม่จำเป็นต้องรอโอกาสพิเศษ แค่ในวันธรรมดาที่เหนื่อยล้า<br>คุณก็คู่ควรกับเค้กดีๆสักชิ้นเพื่อฮีลใจตัวเอง</p>
         <button class="btn btn-primary" id="start-quiz-btn" onclick="startQuiz()">ฉันเอง "เค้ก" ก้อนนั้น</button>
     </div>
 
     <div class="screen" id="intermission-screen">
         <div class="intermission-content-box">
-            <img id="intermission-img" class="intro-scene-image" src="images/star.png" alt="Scene Graphic">
+            <img id="intermission-img" class="intro-scene-image" src="images/star.png" alt="">
             <h2 id="typewriter-text" class="intermission-title"></h2>
         </div>
         <button class="btn btn-primary" id="next-to-quiz-btn" onclick="goToActualQuiz()">เดินต่อ</button>
@@ -49,35 +64,59 @@
 
     <div class="screen" id="box-tap-screen">
         <div class="intermission-content-box">
-            <img id="cake-box-img" class="intro-scene-image clickable-box" src="snp_cake5.png" alt="Cake Box" onclick="tapCakeBox()">
-            
+            <div class="clickable-box-wrapper" onclick="tapCakeBox()">
+                <img id="cake-box-img"
+                     class="clickable-box"
+                     src="snp_cake5.png"
+                     alt="Cake Box">
+            </div>
+
             <div class="tap-progress-bar">
                 <div id="tap-progress-fill" class="tap-progress-fill"></div>
             </div>
+
             <p class="tap-hint-text" id="tap-hint-container">
-                <span id="tap-hint-msg">จิ้มกล่องเพื่อดูเค้กของคุณ!!</span> (<span id="tap-count-text">0</span>/10)
+                <span id="tap-hint-msg">จิ้มกล่องเพื่อดูเค้กของคุณ!!</span>
+                (<span id="tap-count-text">0</span>/10)
             </p>
-            
+
             <h2 id="box-story-text" class="intermission-title"></h2>
         </div>
     </div>
 
-    <div id="result-screen" class="screen">
-    <p id="result-lead-text">เค้กที่อบเพื่อคุณในคืนนี้คือ...</p>
-    
-    <div id="download-area">
-        <img id="result-cake-image" src="" alt="Result Cake" style="width: 100%; max-width: 500px; display: block; margin: 0 auto; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+    <div id="loading-screen" class="screen">
+        <div class="loading-container">
+            <div class="baking-animation">
+                <img src="snp_cake2.png" id="loading-cake-img" alt="Baking Cake">
+                <div class="oven-glow"></div>
+            </div>
+            <h2 id="loading-status-text">รูปภาพกำลังโหลด .</h2>
+            <div class="loading-bar-bg">
+                <div id="loading-bar-fill"></div>
+            </div>
+        </div>
     </div>
 
-    <div class="result-buttons" style="margin-top: 20px; text-align: center;">
-        <button class="action-btn" onclick="downloadTicket()"><span id="download-btn-text">ดาวน์โหลดรูป</span></button>
-        <button class="action-btn ig-btn" onclick="shareToInstagramStory()"><span id="share-ig-btn-text">แชร์ลง IG Story</span></button>
-        <button class="action-btn retry-btn" onclick="resetQuiz()"><span id="retry-btn-text">กลับไปเล่นอีกรอบ</span></button>
-    </div>
+    <div id="result-screen" class="screen">
+        <p id="result-lead-text">เค้กที่อบเพื่อคุณในคืนนี้คือ...</p>
+
+        <div id="download-area">
+            <img id="result-cake-image"
+                 src="" alt="Result Cake"
+                 style="width:100%;max-width:500px;display:block;margin:0 auto;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,0.1);"
+                 onerror="this.alt='ไม่สามารถโหลดรูปได้ กรุณาลองใหม่อีกครั้ง'">
+        </div>
+
+        <div class="result-buttons">
+            <button class="action-btn"          onclick="downloadTicket()">         <span id="download-btn-text">ดาวน์โหลดรูป</span></button>
+            <button class="action-btn ig-btn"   onclick="shareToInstagramStory()">  <span id="share-ig-btn-text">แชร์ลง IG Story</span></button>
+            <button class="action-btn retry-btn" onclick="resetQuiz()">             <span id="retry-btn-text">กลับไปเล่นอีกรอบ</span></button>
+        </div>
     </div>
 
     <footer>
-    <p>Build by Cherry on top | © 2026<br><span id="footer-competition-text">เนื้อหานี้สร้างขึ้นสำหรับการแข่งขัน Crack the Cake เท่านั้น</span></p>
+        <p>Build by Cherry on top | © 2026<br>
+        <span id="footer-competition-text">เนื้อหานี้สร้างขึ้นสำหรับการแข่งขัน Crack the Cake เท่านั้น</span></p>
     </footer>
 
 </div>

@@ -1,278 +1,98 @@
-/* =========================================================================
-   1. VARIABLES & GLOBAL STYLES (คงสีเดิมของน้าไว้ 100% เป๊ะ)
-   ========================================================================= */
+
 :root {
-    --sp-blue: #0A3663;
-    --sp-pink: #E95A78;
-    --bg-color: #fffbf7;
+    --sp-pink:    #E95A78;
+    --bg-color:   #fffbf7;
     --text-color: #333;
-    --light-gray: #fffbf7;
-    --border-gray: #fffbf7;     
-    --wine-red: #da291c;       
-    --warm-gold: #E3A852;      
+    --wine-red:   #da291c;
+    --warm-gold:  #E3A852;
 }
 
-* { 
-    box-sizing: border-box; 
-    font-family: 'Prompt', sans-serif; 
-    transition: all 0.3s ease;
-}
+* { box-sizing: border-box; font-family: 'Prompt', sans-serif; }
 
-body { 
-    background-color: var(--bg-color); 
-    margin: 0; 
-    padding: 0; 
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-    min-height: 100vh; 
-    color: var(--text-color); 
+body {
+    background-color: var(--bg-color);
+    margin: 0; padding: 0;
+    display: flex; justify-content: center; align-items: center;
+    min-height: 100vh;
+    color: var(--text-color);
     overflow: hidden;
 }
 
-/* 1. คุมกล่องมือถือหลัก (สีเดิมของน้า) */
-.phone-container { 
-    background: linear-gradient(180deg, var(--midnight-bg) 0%, #ff4888 100%);
-    width: 100%; 
-    max-width: 420px; 
-    
-    /* ใช้ความสูงยืดหยุ่นตามหน้าจอ iPhone จริง */
-    height: 100vh;
-    height: 100dvh; 
-    
-    border-radius: 24px; 
-    overflow: hidden; 
-    display: flex; 
-    flex-direction: column; 
-    position: relative; 
+.phone-container {
+    background: radial-gradient(180deg, #fee8d1 0%, var(--bg-color) 100%);
+    width: 100%; max-width: 420px;
+    height: 100vh; height: 100dvh;
+    border-radius: 24px;
+    overflow: hidden;
+    display: flex; flex-direction: column;
+    position: relative;
     border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-/* ปรับปรุงเฉพาะหน้าจอมือถือจริง */
 @media (max-width: 480px) {
-    .phone-container {
-        border-radius: 0; 
-    }
+    .phone-container { border-radius: 0; }
 }
 
-/* Base Screen Template - 🌟 คงการปรับปรุงความบาลานซ์ไม่กองด้านบนไว้ */
-.screen { 
-    display: none; 
-    padding: 70px 24px calc(100px + env(safe-area-inset-bottom)) 24px; 
-    flex-direction: column; 
-    justify-content: flex-start; 
-    align-items: center; 
-    height: 100%; 
-    width: 100%;
-    text-align: center; 
+.screen {
+    display: none;
+    padding: 70px 24px calc(100px + env(safe-area-inset-bottom)) 24px;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100%; width: 100%;
+    text-align: center;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    /* transition เฉพาะ opacity ไม่ให้ทะลุ transition: all ของ * */
+    transition: opacity 0.35s ease;
     box-sizing: border-box;
-    
-    overflow-y: auto !important;
-    -webkit-overflow-scrolling: touch; 
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
-.screen.active { 
-    display: flex; 
-    opacity: 1;
+.screen.active {
+    display: flex;
+    animation: screenFadeIn 0.35s ease forwards;
 }
 
-/* =========================================================================
-   ปุ่มเปลี่ยนภาษา (ปรับดีไซน์ให้ใช้โทนสีแบรนด์ของน้า และลอยบนขวาหน้าแรก)
-   ========================================================================= */
+@keyframes screenFadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0);   }
+}
+
 .lang-switch-container {
     position: absolute;
-    top: 45px; 
-    right: 20px;
-    display: flex;
-    gap: 8px;
+    top: 45px; right: 20px;
+    display: flex; gap: 8px;
     z-index: 110;
 }
 
 .lang-btn {
-    background: rgba(233, 90, 120, 0.12); /* ใช้สีชมพูจางสไตล์น้า */
+    background: rgba(233, 90, 120, 0.12);
     border: 1px solid rgba(233, 90, 120, 0.3);
     color: var(--text-color);
     padding: 6px 12px;
-    font-size: 12px;
-    font-weight: 600;
+    font-size: 12px; font-weight: 600;
     border-radius: 20px;
     cursor: pointer;
     font-family: 'Prompt', sans-serif;
-    transition: all 0.2s ease;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.lang-btn:hover {
-    background: var(--wine-red);
-    color: #ffffff;
-    border-color: var(--wine-red);
-    transform: translateY(-1px);
-}
-
+.lang-btn:hover,
 .lang-btn.active {
-    background: var(--wine-red); /* ไฮไลท์สีชมพูแบรนด์เด่นชัด */
-    color: #ffffff;
+    background: var(--wine-red);
+    color: #fff;
     border-color: var(--wine-red);
     box-shadow: 0 4px 10px rgba(233, 90, 120, 0.25);
 }
 
-/* =========================================================================
-   2. หน้าคั่นคำถาม (INTERMISSION SCREEN) - ดึงลงมาอยู่ตรงกลางด้วยวิธีสปริง
-   ========================================================================= */
-#intermission-screen {
-    justify-content: flex-start; 
-    padding: 70px 24px calc(100px + env(safe-area-inset-bottom)) 24px; 
-}
+.lang-btn:hover { transform: translateY(-1px); }
 
-/* กล่องคุมเนื้อหาครึ่งบน - 🌟 ใช้สปริงบนล่างเพื่อให้คอนเทนต์อยู่กึ่งกลางสวยๆ ไม่กองด้านบน */
-.intermission-content-box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    margin-top: auto;    /* 🌟 สปริงดันด้านบน */
-    margin-bottom: auto; /* 🌟 สปริงดันด้านล่าง */
-}
-
-/* จัดรูปหน้าคั่นให้อยู่ตรงกลางเป๊ะ */
-.intro-scene-image {
-    display: block;
-    width: 220px;         
-    height: auto;         
-    object-fit: contain;
-    margin: 0 auto 30px auto; 
-    animation: float 1s ease-in-out infinite; 
-    flex-shrink: 0;
-}
-
-/* ปรับกล่องข้อความพิมพ์วิ่ง */
-.intermission-title {
-    font-size: 20px;
-    font-weight: 400;
-    line-height: 1.8;
-    color: var(--wine-red);
-    max-width: 85%;
-    min-height: 120px; 
-    margin: 0 auto;
-    text-align: center;
-    display: block;      
-    position: relative;  
-}
-
-/* ปุ่มในหน้าคั่นคำถาม */
-#next-to-quiz-btn {
-    margin-top: auto;   /* 🌟 ปักหมุดให้อยู่โซนด้านล่างแบบรักษาระยะห่าง */
-    margin-bottom: 10px;
-    width: 85%;
-    flex-shrink: 0; 
-}
-
-/* =========================================================================
-   3. หน้าแรก (START SCREEN) & หน้าควิซ (QUIZ SCREEN)
-   ========================================================================= */
-/* 🌟 เพิ่มระบบสปริงให้หน้าแรกเวลามีคอนเทนต์สั้นๆ จะได้อยู่กึ่งกลางสายตาพอดี */
-#start-screen .bakery-window,
-#start-screen .image {
-    margin-top: auto; 
-}
-
-#start-screen .btn {
-    margin-top: auto;
-    margin-bottom: 10px;
-}
-
-.bakery-window {
-    font-size: 70px;
-    margin-bottom: 20px;
-    animation: float 3s ease-in-out infinite;
-}
-
-.story-title {
-    color: var(--wine-red);
-    font-size: 32px;
-    font-weight: 700;
-    margin: 0 0 15px 0;
-}
-
-.story-p {
-    font-size: 15px;
-    line-height: 1.6;
-    color: var(--text-color);
-    margin-bottom: 35px;
-    font-weight: 300;
-}
-
-.image {
-    width: 250px;              
-    height: auto;              
-    margin-bottom: 10px;        
-    filter: drop-shadow(0 0 15px rgba(227, 168, 82, 0.3)); 
-    animation: float 2s ease-in-out infinite; 
-}
-
-/* หน้าควิซและกล่องช้อยส์ */
-.question-title {
-    font-size: 20px;
-    font-weight: 800;
-    line-height: 1.6;
-    color: var(--wine-red);
-    margin-top: auto;    /* 🌟 ดึงชื่อคำถามลงมาให้อยู่บาลานซ์กึ่งกลาง */
-    margin-bottom: 30px; 
-    min-height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-}
-
-.options-grid {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    margin-bottom: auto; /* 🌟 ทำงานร่วมกับด้านบนเพื่อล็อกกริดให้อยู่ตรงกลางแอปพอดี */
-}
-
-/* การ์ดช้อยส์คำตอบสไตล์ Glassmorphism */
-.option-btn {
-    background: rgba(233, 90, 120, 0.08); 
-    border: 1px solid rgba(233, 90, 120, 0.15); 
-    color: #333333;                                                          
-    padding: 16px 20px;
-    width: 100%;
-    border-radius: 16px;                        
-    margin-bottom: 12px;
-    font-size: 15px;
-    font-weight: 500;
-    cursor: pointer;
-    text-align: center;
-    position: relative;
-    flex-shrink: 0;
-    
-    -webkit-backdrop-filter: blur(8px);
-    backdrop-filter: blur(8px);
-    
-    box-shadow: 0 4px 12px rgba(233, 90, 120, 0.04);
-    transition: background 0.3s ease, border-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-}
-
-.option-btn:hover {
-    background: rgba(233, 90, 120, 0.18);      
-    border-color: var(--sp-pink);               
-    color: var(--sp-pink);                      
-    transform: translateY(-2px);                 
-    box-shadow: 0 6px 15px rgba(233, 90, 120, 0.15); 
-}
-
-/* Progress Bar ด้านบน */
 .progress-container {
     position: absolute;
-    top: 25px; 
-    left: 0;
-    width: 100%;
-    height: 6px;
-    background: #eee; 
+    top: 25px; left: 0;
+    width: 100%; height: 6px;
+    background: #eee;
     z-index: 100;
 }
 
@@ -281,35 +101,149 @@ body {
     background: var(--sp-pink);
     width: 0%;
     box-shadow: 0 0 10px var(--sp-pink);
+    transition: width 0.4s ease;
+}
+
+#start-screen .image { margin-top: auto; }
+#start-screen .btn   { margin-top: auto; margin-bottom: 10px; }
+
+.story-title {
+    color: var(--wine-red);
+    font-size: 32px; font-weight: 700;
+    margin: 0 0 15px 0;
+}
+
+.story-p {
+    font-size: 15px; line-height: 1.6;
+    color: var(--text-color);
+    margin-bottom: 35px; font-weight: 300;
+}
+
+.image {
+    width: 250px; height: auto;
+    margin-bottom: 10px;
+    filter: drop-shadow(0 0 15px rgba(227, 168, 82, 0.3));
+    animation: float 5s ease-in-out infinite;
+}
+
+#intermission-screen {
+    justify-content: flex-start;
+    padding: 70px 24px calc(100px + env(safe-area-inset-bottom)) 24px;
+}
+
+.intermission-content-box {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    width: 100%;
+    margin-top: auto; margin-bottom: auto;
+}
+
+.intro-scene-image {
+    display: block;
+    width: 220px; height: auto;
+    object-fit: contain;
+    margin: 0 auto 30px auto;
+    animation: float 3s ease-in-out infinite;
+    flex-shrink: 0;
+}
+
+.intermission-title {
+    font-size: 20px; font-weight: 400;
+    line-height: 1.8;
+    color: var(--wine-red);
+    max-width: 85%; min-height: 120px;
+    margin: 0 auto;
+    text-align: center;
+    display: block; position: relative;
+}
+
+#next-to-quiz-btn {
+    margin-top: auto; margin-bottom: 10px;
+    width: 85%; flex-shrink: 0;
+}
+
+.question-title {
+    font-size: 20px; font-weight: 800;
+    line-height: 1.6;
+    color: var(--wine-red);
+    margin-top: auto; margin-bottom: 30px;
+    min-height: 80px;
+    display: flex; align-items: center; justify-content: center;
+    width: 100%;
+}
+
+.options-grid {
+    width: 100%;
+    display: flex; flex-direction: column;
+    margin-bottom: auto;
+}
+
+.option-btn {
+    background: rgba(233, 90, 120, 0.08);
+    border: 1px solid rgba(233, 90, 120, 0.15);
+    color: #333;
+    padding: 16px 20px;
+    width: 100%;
+    border-radius: 16px;
+    margin-bottom: 12px;
+    font-size: 15px; font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+    flex-shrink: 0;
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 12px rgba(233, 90, 120, 0.04);
+    transition: background 0.25s ease, border-color 0.25s ease,
+                color 0.25s ease, transform 0.15s ease, box-shadow 0.25s ease;
+}
+
+.option-btn:hover {
+    background: rgba(233, 90, 120, 0.18);
+    border-color: var(--sp-pink);
+    color: var(--sp-pink);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(233, 90, 120, 0.15);
+}
+
+.option-btn:active,
+.option-btn.selected {
+    background: rgba(218, 41, 28, 0.18);
+    border-color: var(--wine-red);
+    color: var(--wine-red);
+    transform: scale(0.98);
+    box-shadow: 0 2px 8px rgba(218, 41, 28, 0.2);
+}
+
+.clickable-box-wrapper {
+    padding: 20px;
+    cursor: pointer;
+    user-select: none; -webkit-user-select: none;
+    margin-top: auto;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .clickable-box {
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-select: none;
-    margin-top: auto; /* 🌟 ปรับแต่งกล่องหน้าแกะของขวัญให้อยู่กลางจอ */
+    display: block;
+    width: 220px; height: auto;
+    pointer-events: none; 
 }
 
-/* หลอดพลัง Progress บังคับการแกะกล่องเค้ก */
 .tap-progress-bar {
-    width: 60%;
-    height: 8px;
-    background: rgba(255, 255, 255, 0.2);
+    width: 60%; height: 8px;
+    background: #eae5d9;
     border-radius: 10px;
     margin: 15px auto 5px auto;
     overflow: hidden;
-    border: 1px solid rgba(233, 90, 120, 0.2);
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
 }
 
 .tap-progress-fill {
-    height: 100%;
-    width: 0%;
-    background: var(--sp-pink); 
-    box-shadow: 0 0 8px var(--sp-pink);
-    transition: width 0.1s ease-out; 
+    height: 100%; width: 0%;
+    background: var(--wine-red);
+    box-shadow: 0 0 8px rgba(218, 41, 28, 0.5);
+    transition: width 0.1s ease-out;
 }
 
-/* ข้อความคำแนะนำการจิ้มกล่อง */
 .tap-hint-text {
     font-size: 12px;
     color: var(--warm-gold);
@@ -317,234 +251,208 @@ body {
     opacity: 0.9;
 }
 
-/* =========================================================================
-   4. หน้าตั๋วผลลัพธ์ (RESULT SCREEN)
-   ========================================================================= */
-.ticket-wrapper {
-    background: transparent;
-    padding: 10px;
-    width: 100%;
-    display: flex;
+#loading-screen {
+    display: none;
+    background: #fffdf9;
     justify-content: center;
-    margin-top: auto; /* 🌟 ปรับสมดุลหน้าตั๋วผลลัพธ์ให้อยู่เซ็นเตอร์พอดี */
-}
-
-.ticket-card {
-    background: var(--cream-light);
-    color: #1A1D24;
-    width: 100%;
-    border-radius: 18px;
-    margin: 20px 0;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-    overflow: hidden;
-}
-
-.ticket-header {
-    background: var(--wine-red); 
-    color: var(--light-gray);
-    font-size: 11px;
-    letter-spacing: 2px;
-    padding: 10px;
-    font-weight: 600;
-}
-
-.ticket-body {
-    padding: 28px 22px;
-}
-
-.cake-avatar { font-size: 55px; margin-bottom: 10px; }
-
-.cake-type { 
-    font-size: 21px; 
-    color: var(--sp-pink); 
-    font-weight: 700; 
-}
-
-.divider {
-    border-top: 2px dashed #D2CBD4;
-    margin: 16px 0;
-}
-
-.cake-story { font-size: 14px; line-height: 1.6; color: #333333; text-align: left; margin: 0;}
-.result-lead { font-size: 14px; color: #CED4DA; margin: 0; }
-.share-hint { font-size: 11px; color: #CED4DA; margin-bottom: 15px; opacity: 0.8;}
-
-/* ปุ่มควบคุมส่วนล่าง */
-.btn { 
-    border: none; 
-    padding: 16px 32px; 
-    font-size: 16px; 
-    font-weight: 600; 
-    border-radius: 50px; 
-    cursor: pointer; 
-    width: 85%; 
-    margin-top: 15px; 
-    margin-bottom: 10px; /* 🌟 ปรับแก้ให้รองรับระบบสปริง */
-    text-decoration: none;
-    display: inline-block;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    position: relative;
-    flex-shrink: 0;
-}
-
-.btn:hover { 
-    transform: translateY(-3px);
-}
-
-.btn-primary {
-    background: var(--wine-red); 
-    color: #ffffff;
-}
-
-.btn-primary:hover {
-    box-shadow: 0 0 25px rgba(227, 168, 82, 0.4);
-}
-
-.btn-secondary {
-    background: var(--sp-pink);
-    color: white;
-}
-
-.btn-secondary:hover {
-    box-shadow: 0 0 25px rgba(255, 0, 0, 0.4);
-}
-
-.btn-download {
-    background: var(--mint-teal);
-    color: var(--wine-red);
-    font-weight: 700;
-}
-
-.btn-download:hover {
-    box-shadow: 0 0 25px rgba(233, 0, 82, 0.4);
-}
-
-/* =========================================================================
-   สไตล์ปุ่มแอ็กชันหน้าสรุปผล (Result Buttons Styles)
-   ========================================================================= */
-
-/* คอมเทนเนอร์จัดวางปุ่ม */
-.result-buttons {
-    margin-top: 25px;
-    margin-bottom: 15px;
+    align-items: center;
     text-align: center;
-    display: flex;
-    flex-direction: column; /* เรียงปุ่มเป็นแนวตั้งตาม UI ของน้า */
-    gap: 12px;             /* ระยะห่างระหว่างปุ่ม */
-    padding: 0 20px;       /* เว้นระยะขอบซ้ายขวา */
+    flex-direction: column;
+    animation: none !important;
+    opacity: 1 !important;
+}
+
+#loading-screen.active { display: flex; }
+
+.loading-container {
+    width: 100%; max-width: 360px;
+    padding: 20px;
+    display: flex; flex-direction: column;
     align-items: center;
 }
 
-/* สไตล์ปุ่มพื้นฐาน (ดาวน์โหลดรูป) */
+.baking-animation {
+    position: relative;
+    width: 150px; height: 150px;
+    margin-bottom: 30px;
+}
+
+#loading-cake-img {
+    width: 100%; height: 100%;
+    object-fit: contain;
+    animation: bakingPulse 2.5s ease-in-out infinite;
+}
+
+.oven-glow {
+    position: absolute;
+    bottom: -10px; left: 50%;
+    transform: translateX(-50%);
+    width: 100px; height: 20px;
+    background: radial-gradient(ellipse at center, rgba(245,158,11,0.4) 0%, rgba(245,158,11,0) 70%);
+    border-radius: 50%;
+    animation: glowPulse 2.5s ease-in-out infinite;
+}
+
+#loading-status-text {
+    font-size: 18px; font-weight: 600;
+    color: var(--wine-red);
+    margin-bottom: 20px;
+    min-height: 27px;
+    transition: opacity 0.3s ease;
+}
+
+.loading-bar-bg {
+    width: 80%; height: 6px;
+    background: #eae5d9;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+}
+
+#loading-bar-fill {
+    width: 0%; height: 100%;
+    background: var(--wine-red);
+    border-radius: 10px;
+    transition: width 0.1s linear;
+}
+
+.result-buttons {
+    margin-top: 25px; margin-bottom: 15px;
+    text-align: center;
+    display: flex; flex-direction: column;
+    gap: 12px; padding: 0 20px;
+    align-items: center;
+}
+
+#result-cake-image {
+    width: 100%; max-width: 500px;
+    display: block; margin: 0 auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    opacity: 0;
+    transform: scale(0.92);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+#result-cake-image.revealed {
+    opacity: 1;
+    transform: scale(1);
+}
+
 .action-btn {
-    width: 100%;
-    max-width: 320px;      /* จำกัดความกว้างไม่ให้ล้นจอ */
+    width: 100%; max-width: 320px;
     padding: 12px 24px;
-    font-size: 16px;
-    font-weight: 600;
-    font-family: inherit;  /* ใช้ฟอนต์เดียวกับระบบหลัก */
-    color: #ffffff;
-    background-color: #d62828; /* สีแดงหลักของ S&P */
-    border: none;
-    border-radius: 50px;   /* ทำปุ่มมนสไตล์โค้งสวยงาม */
+    font-size: 16px; font-weight: 600;
+    font-family: inherit;
+    color: #fff;
+    background-color: #d62828;
+    border: none; border-radius: 50px;
     cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: all 0.2s ease-in-out;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
     outline: none;
 }
 
-/* เอฟเฟกต์ตอนเอาเมาส์ไปชี้ปุ่ม */
 .action-btn:hover {
-    background-color: #b31d1d; /* สีแดงเข้มขึ้นเล็กน้อย */
-    transform: translateY(-2px); /* ปุ่มลอยขึ้นนิดๆ */
-    box-shadow: 0 6px 12px rgba(179, 29, 29, 0.3);
+    background-color: #b31d1d;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(179,29,29,0.3);
 }
 
-/* เอฟเฟกต์ตอนกดปุ่ม */
 .action-btn:active {
     transform: translateY(0);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-/* ปุ่มสีพิเศษ: ปุ่มแชร์ลง IG Story */
 .action-btn.ig-btn {
     background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
 }
 
 .action-btn.ig-btn:hover {
-    filter: brightness(1.05); /* สว่างขึ้นตอนชี้ */
-    box-shadow: 0 6px 12px rgba(220, 39, 67, 0.3);
+    filter: brightness(1.05);
+    box-shadow: 0 6px 12px rgba(220,39,67,0.3);
 }
 
-/* ปุ่มสีพิเศษ: ปุ่มกลับไปเล่นอีกรอบ */
 .action-btn.retry-btn {
     background-color: #f7f7f7;
-    color: #555555;
-    border: 1px solid #dddddd;
+    color: #555;
+    border: 1px solid #ddd;
 }
 
 .action-btn.retry-btn:hover {
-    background-color: #eeeeee;
-    color: #333333;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+    background-color: #eee;
+    color: #333;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.08);
 }
 
-/* ฟุตเตอร์บางเฉียบ */
+.btn {
+    border: none;
+    padding: 16px 32px;
+    font-size: 16px; font-weight: 600;
+    border-radius: 50px;
+    cursor: pointer;
+    width: 85%; margin-top: 15px; margin-bottom: 10px;
+    text-decoration: none;
+    display: inline-block;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    position: relative; flex-shrink: 0;
+    transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.btn:hover { transform: translateY(-3px); }
+
+.btn-primary {
+    background: var(--wine-red);
+    color: #fff;
+}
+
+.btn-primary:hover { box-shadow: 0 0 25px rgba(227,168,82,0.4); }
+
 footer {
     text-align: center;
     padding: 6px 14px;
-    height: 40px; 
-    background: rgba(255, 0, 0, 0.05); 
+    height: 40px;
+    background: rgba(255, 0, 0, 0.05);
     -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(5px);
-    color: var(--sp-pink, #E95A78); 
-    font-family: "Quicksand", sans-serif;
-    font-size: 10px; 
+    backdrop-filter: blur(10px);
+    color: var(--sp-pink);
+    font-size: 10px;
     letter-spacing: 0.5px;
-    position: absolute;                   
-    bottom: 0;
-    left: 0;
-    width: 100%;                          
-    z-index: 99;
-    border-top: 1px solid rgba(255, 255, 255, 0.05); 
+    position: absolute; bottom: 0; left: 0;
+    width: 100%; z-index: 99;
+    border-top: 1px solid rgba(255,255,255,0.05);
     box-sizing: border-box;
-    pointer-events: none; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* =========================================================================
-   5. ANIMATIONS & CURSOR EFFECTS
-   ========================================================================= */
-.shake-animation {
-    animation: boxShake 0.15s linear infinite;
-}
-
-@keyframes boxShake {
-    0% { transform: translate(1px, 1px) rotate(0deg); }
-    10% { transform: translate(-1px, -2px) rotate(-1deg); }
-    20% { transform: translate(-3px, 0px) rotate(1deg); }
-    30% { transform: translate(0px, 2px) rotate(0deg); }
-    40% { transform: translate(1px, -1px) rotate(1deg); }
-    50% { transform: translate(-1px, 2px) rotate(-1deg); }
-    60% { transform: translate(-3px, 1px) rotate(0deg); }
-    70% { transform: translate(2px, 1px) rotate(-1deg); }
-    80% { transform: translate(-1px, -1px) rotate(1deg); }
-    90% { transform: translate(2px, 2px) rotate(0deg); }
-    100% { transform: translate(1px, -2px) rotate(-1deg); }
+    pointer-events: none;
+    display: flex; justify-content: center; align-items: center;
 }
 
 @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
+    0%, 100% { transform: translateY(0);    }
+    50%       { transform: translateY(-8px); }
 }
 
-
-
-@keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
+@keyframes boxShake {
+    0%   { transform: translate(1px, 1px)   rotate(0deg);  }
+    10%  { transform: translate(-1px, -2px) rotate(-1deg); }
+    20%  { transform: translate(-3px, 0px)  rotate(1deg);  }
+    30%  { transform: translate(0px, 2px)   rotate(0deg);  }
+    40%  { transform: translate(1px, -1px)  rotate(1deg);  }
+    50%  { transform: translate(-1px, 2px)  rotate(-1deg); }
+    60%  { transform: translate(-3px, 1px)  rotate(0deg);  }
+    70%  { transform: translate(2px, 1px)   rotate(-1deg); }
+    80%  { transform: translate(-1px, -1px) rotate(1deg);  }
+    90%  { transform: translate(2px, 2px)   rotate(0deg);  }
+    100% { transform: translate(1px, -2px)  rotate(-1deg); }
 }
 
+.shake-animation { animation: boxShake 0.15s linear infinite; }
+
+@keyframes bakingPulse {
+    0%, 100% { transform: scale(1) translateY(0);       filter: brightness(1);    }
+    50%       { transform: scale(1.03) translateY(-3px); filter: brightness(1.02); }
+}
+
+@keyframes glowPulse {
+    0%, 100% { opacity: 0.5; transform: translateX(-50%) scale(1);   }
+    50%       { opacity: 0.8; transform: translateX(-50%) scale(1.1); }
+}
