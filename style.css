@@ -410,7 +410,7 @@ body {
 
 footer {
     text-align: center;
-    padding: 8px 14px;
+    padding: 6px 14px 8px 14px;
     height: auto;
     min-height: 40px;
     background: rgba(255, 0, 0, 0.05);
